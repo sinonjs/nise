@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "formatio": "^1.2.0",
+    "lolex": "^1.6.0",
     "path-to-regexp": "^1.7.0"
   }
 }
