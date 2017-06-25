@@ -60,5 +60,8 @@
     "referee": "^1.2.0",
     "sinon": "^2.3.4",
     "xmldom": "^0.1.27"
+  },
+  "dependencies": {
+    "formatio": "^1.2.0"
   }
 }
