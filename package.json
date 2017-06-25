@@ -12,6 +12,7 @@
   ],
   "main": "lib/index.js",
   "scripts": {
+    "bundle": "browserify -s fake-xhr-and-server -o fake-xhr-and-server.js lib/index.js",
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "test": "mocha 'lib/**/*.test.js'",
@@ -47,6 +48,7 @@
     }
   },
   "devDependencies": {
+    "browserify": "^14.4.0",
     "eslint": "^3.19.0",
     "eslint-config-sinon": "^1.0.1",
     "eslint-plugin-mocha": "^4.9.0",
