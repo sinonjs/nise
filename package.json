@@ -62,6 +62,7 @@
     "xmldom": "^0.1.27"
   },
   "dependencies": {
-    "formatio": "^1.2.0"
+    "formatio": "^1.2.0",
+    "path-to-regexp": "^1.7.0"
   }
 }
