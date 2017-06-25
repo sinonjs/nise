@@ -1,0 +1,64 @@
+{
+  "name": "nise",
+  "version": "1.0.0",
+  "description": "Fake XHR and server",
+  "keywords": [
+    "test",
+    "testing",
+    "fake",
+    "mock",
+    "xhr",
+    "server"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prepublish": "npm run bundle",
+    "test": "mocha 'lib/**/*.test.js'",
+    "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot"
+  },
+  "author": "",
+  "license": "BSD",
+  "nyc": {
+    "exclude": [
+      "nise.js",
+      "coverage/**",
+      "**/*.test.js"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-sinon",
+    "globals": {
+      "ArrayBuffer": false
+    },
+    "env": {
+      "mocha": true
+    },
+    "plugins": [
+      "mocha"
+    ],
+    "rules": {
+      "mocha/no-exclusive-tests": "error",
+      "mocha/no-identical-title": "error",
+      "mocha/no-nested-tests": "error",
+      "mocha/no-sibling-hooks": "error",
+      "mocha/no-top-level-hooks": "error",
+      "max-nested-callbacks": "off"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-sinon": "^1.0.1",
+    "eslint-plugin-mocha": "^4.9.0",
+    "jsdom": "11.0.0",
+    "jsdom-global": "3.0.2",
+    "just-extend": "^1.1.22",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2",
+    "pre-commit": "^1.2.2",
+    "proxyquire": "^1.8.0",
+    "referee": "^1.2.0",
+    "sinon": "^2.3.4",
+    "xmldom": "^0.1.27"
+  }
+}
