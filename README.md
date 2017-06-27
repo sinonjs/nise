@@ -4,10 +4,6 @@ fake XHR and Server
 
 This module has been extracted from [Sinon.JS][sinon] and can be used standalone.
 
-## Work in progress
-
-This is very much a work in progress and should not be used for anything just yet
-
 ## Fake `XMLHttpRequest`
 
 Provides a fake implementation of `XMLHttpRequest` and provides
