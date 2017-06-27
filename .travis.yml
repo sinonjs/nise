@@ -4,7 +4,6 @@ sudo: false
 
 node_js:
   # https://github.com/nodejs/LTS
-  - "4" # ends April 2018
   - "6" # ends April 2019
   - "8" # ends December 2019
 
