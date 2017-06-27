@@ -12,7 +12,7 @@
   ],
   "main": "lib/index.js",
   "scripts": {
-    "bundle": "browserify -s fake-xhr-and-server -o fake-xhr-and-server.js lib/index.js",
+    "bundle": "browserify -s nise -o nise.js lib/index.js",
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "test": "mocha 'lib/**/*.test.js'",
