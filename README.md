@@ -1,4 +1,4 @@
-# nise (偽)
+# nise (偽) [![npm version](https://img.shields.io/npm/v/nise.svg?style=flat)](https://www.npmjs.com/package/nise) [![Build Status](https://travis-ci.org/sinonjs/nise.svg?branch=master)](https://travis-ci.org/sinonjs/nise)
 
 fake XHR and Server
 
