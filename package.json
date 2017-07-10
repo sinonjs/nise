@@ -10,6 +10,10 @@
     "xhr",
     "server"
   ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/sinonjs/nise.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "bundle": "browserify -s nise -o nise.js lib/index.js",
