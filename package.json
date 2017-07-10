@@ -23,7 +23,7 @@
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot"
   },
   "author": "",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "nyc": {
     "exclude": [
       "nise.js",
