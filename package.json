@@ -64,13 +64,13 @@
     "proxyquire": "^1.8.0",
     "referee": "^1.2.0",
     "sinon": "^2.3.4",
-    "text-encoding": "^0.6.4",
     "xmldom": "^0.1.27"
   },
   "dependencies": {
     "formatio": "^1.2.0",
     "just-extend": "^1.1.22",
     "lolex": "^1.6.0",
-    "path-to-regexp": "^1.7.0"
+    "path-to-regexp": "^1.7.0",
+    "text-encoding": "^0.6.4"
   }
 }
