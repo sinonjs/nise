@@ -70,6 +70,7 @@
     "formatio": "^1.2.0",
     "just-extend": "^1.1.22",
     "lolex": "^1.6.0",
-    "path-to-regexp": "^1.7.0"
+    "path-to-regexp": "^1.7.0",
+    "text-encoding": "^0.6.4"
   }
 }
