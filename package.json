@@ -20,7 +20,9 @@
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "test": "mocha 'lib/**/*.test.js'",
-    "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot"
+    "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
+    "precommit": "npm run lint && npm run test",
+    "prepush": "npm run lint && npm run test"
   },
   "author": "",
   "license": "BSD-3-Clause",
@@ -56,11 +58,11 @@
     "eslint": "^3.19.0",
     "eslint-config-sinon": "^1.0.1",
     "eslint-plugin-mocha": "^4.9.0",
+    "husky": "^0.14.3",
     "jsdom": "11.0.0",
     "jsdom-global": "3.0.2",
     "mocha": "^3.4.2",
     "nyc": "^11.0.2",
-    "pre-commit": "^1.2.2",
     "proxyquire": "^1.8.0",
     "referee": "^1.2.0",
     "sinon": "^2.3.4",
