@@ -21,7 +21,7 @@
     "prepublish": "npm run bundle",
     "test": "mocha 'lib/**/*.test.js'",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
-    "precommit": "npm run lint && npm run test",
+    "precommit": "npm run lint -- --fix && npm run test",
     "prepush": "npm run lint && npm run test"
   },
   "author": "",
@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "browserify": "^14.4.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.5.0",
     "eslint-config-sinon": "^1.0.1",
     "eslint-plugin-mocha": "^4.9.0",
     "husky": "^0.14.3",
