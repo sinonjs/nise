@@ -15,6 +15,7 @@
     "url": "http://github.com/sinonjs/nise.git"
   },
   "main": "lib/index.js",
+  "module": "nise.js",
   "scripts": {
     "bundle": "browserify -s nise -o nise.js lib/index.js",
     "lint": "eslint .",
