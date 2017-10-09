@@ -257,7 +257,7 @@ Causes the server to respond to any request not matched by another response with
 
 `response` can be one of three things:
 
-1. A `String` representing the response body
+1. A `String` or `ArrayBuffer` representing the response body
 2. An `Array` with status, headers and response body, e.g. `[200, { "Content-Type": "text/html", "Content-Length": 2 }, "OK"]`
 3. A `Function`.
 
