@@ -36,7 +36,8 @@
   "eslintConfig": {
     "extends": "eslint-config-sinon",
     "globals": {
-      "ArrayBuffer": false
+      "ArrayBuffer": false,
+      "Uint8Array": false
     },
     "env": {
       "mocha": true
