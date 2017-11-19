@@ -44,7 +44,7 @@ var sinon = require("sinon");
 
 ### `useFakeXMLHttpRequest`
 
-#### var xhr = fakeXhr.useFakeXMLHttpRequest();"
+#### var xhr = fakeXhr.useFakeXMLHttpRequest();
 
 Causes fakeXhr to replace the native `XMLHttpRequest` object in browsers that support it with a custom implementation which does not send actual requests.
 
@@ -155,13 +155,13 @@ The filter will be called when `xhr.open` is called, with the exact same argumen
 
 ### Simulating server responses
 
-#### `request.setStatus(status);``
+#### `request.setStatus(status);`
 
 Sets response status (`status` and `statusText` properties).
 
 Status should be a number, the status text is looked up from `fakeXhr.FakeXMLHttpRequest.statusCodes`.
 
-#### `request.setResponseHeaders(object);``
+#### `request.setResponseHeaders(object);`
 
 Sets response headers (e.g. `{ "Content-Type": "text/html", /* ... */ }`, updates the `readyState` property and fires `onreadystatechange`.
 
@@ -173,7 +173,7 @@ Sets the respond body, updates the `readyState` property and fires `onreadystate
 Additionally, populates `responseXML` with a parsed document if [response headers indicate as much](http://www.w3.org/TR/XMLHttpRequest/).
 
 
-#### `request.respond(status, headers, body);``
+#### `request.respond(status, headers, body);`
 
 Calls the above three methods.
 
@@ -229,7 +229,7 @@ var sinon = require("sinon");
 ```
 
 
-#### `var server = fakeServer.create([config]);``
+#### `var server = fakeServer.create([config]);`
 
 Creates a new server.
 
@@ -257,7 +257,7 @@ Causes the server to respond to any request not matched by another response with
 
 `response` can be one of three things:
 
-1. A `String` representing the response body
+1. A `String` or `ArrayBuffer` representing the response body
 2. An `Array` with status, headers and response body, e.g. `[200, { "Content-Type": "text/html", "Content-Length": 2 }, "OK"]`
 3. A `Function`.
 
@@ -309,7 +309,7 @@ If called with arguments, `respondWith` will be called with those arguments befo
 
 
 #### `server.autoRespond = true;`
-`
+
 If set, will automatically respond to every request after a timeout.
 
 The default timeout is 10ms but you can control it through the `autoRespondAfter` property.

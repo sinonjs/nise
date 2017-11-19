@@ -1,6 +1,6 @@
 {
   "name": "nise",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Fake XHR and server",
   "keywords": [
     "test",
@@ -37,7 +37,8 @@
   "eslintConfig": {
     "extends": "eslint-config-sinon",
     "globals": {
-      "ArrayBuffer": false
+      "ArrayBuffer": false,
+      "Uint8Array": false
     },
     "env": {
       "mocha": true
@@ -71,7 +72,7 @@
   },
   "dependencies": {
     "formatio": "^1.2.0",
-    "just-extend": "^1.1.22",
+    "just-extend": "^1.1.26",
     "lolex": "^1.6.0",
     "path-to-regexp": "^1.7.0",
     "text-encoding": "^0.6.4"
