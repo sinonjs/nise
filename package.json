@@ -38,6 +38,7 @@
     "browserify": "^14.4.0",
     "eslint": "^4.5.0",
     "eslint-config-sinon": "^1.0.1",
+    "eslint-plugin-ie11": "1.0.0",
     "eslint-plugin-mocha": "^4.9.0",
     "husky": "^0.14.3",
     "jsdom": "11.0.0",
