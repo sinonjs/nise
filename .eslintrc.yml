@@ -4,16 +4,18 @@ globals:
   ArrayBuffer: false
   Uint8Array: false
 
-env:
-  mocha: true
+overrides:
+  files: '*.test.*'
+  env:
+    mocha: true
 
-plugins:
-  - mocha
+  plugins:
+    - mocha
 
-rules:
-  mocha/no-exclusive-tests: error
-  mocha/no-identical-title: error
-  mocha/no-nested-tests: error
-  mocha/no-sibling-hooks: error
-  mocha/no-top-level-hooks: error
-  max-nested-callbacks: off
+  rules:
+    mocha/no-exclusive-tests: error
+    mocha/no-identical-title: error
+    mocha/no-nested-tests: error
+    mocha/no-sibling-hooks: error
+    mocha/no-top-level-hooks: error
+    max-nested-callbacks: off
