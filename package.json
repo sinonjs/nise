@@ -36,7 +36,7 @@
   },
   "files": [
     "nise.js",
-    "lib/**/*[^test].js"
+    "lib/**/*.js"
   ],
   "devDependencies": {
     "browserify": "^14.4.0",
