@@ -55,7 +55,7 @@
     "xmldom": "^0.1.27"
   },
   "dependencies": {
-    "formatio": "^1.2.0",
+    "@sinonjs/formatio": "^2.0.0",
     "just-extend": "^1.1.27",
     "lolex": "^2.3.2",
     "path-to-regexp": "^1.7.0",
