@@ -23,6 +23,7 @@
     "test": "mocha 'lib/**/*.test.js'",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
     "precommit": "npm run lint -- --fix && npm run test",
+    "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
     "prepush": "npm run lint && npm run test"
   },
   "author": "",
