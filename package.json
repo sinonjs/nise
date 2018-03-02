@@ -20,6 +20,7 @@
     "bundle": "browserify -s nise -o nise.js lib/index.js",
     "lint": "eslint .",
     "prepublish": "npm run bundle",
+    "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
     "test": "mocha 'lib/**/*.test.js'",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
     "precommit": "npm run lint -- --fix && npm run test",
