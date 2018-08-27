@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@sinonjs/formatio": "^2.0.0",
-    "just-extend": "^1.1.27",
+    "just-extend": "^3.0.0",
     "lolex": "^2.3.2",
     "path-to-regexp": "^1.7.0",
     "text-encoding": "^0.6.4"
