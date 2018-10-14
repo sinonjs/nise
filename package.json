@@ -21,8 +21,9 @@
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
-    "test": "mocha 'lib/**/*.test.js'",
+    "test": "mocha lib/**/*.test.js",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
+    "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] lib/**/*.test.js",
     "precommit": "npm run lint -- --fix && npm run test",
     "prepush": "npm run lint && npm run test"
   },
@@ -50,8 +51,11 @@
     "jsdom": "11.6.2",
     "jsdom-global": "3.0.2",
     "mocha": "^5.0.0",
+    "mochify": "^5.8.1",
     "nyc": "^13.0.0",
     "proxyquire": "^1.8.0",
+    "proxyquire-universal": "^1.0.8",
+    "proxyquireify": "^3.2.1",
     "sinon": "^4.2.2"
   },
   "dependencies": {
