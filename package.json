@@ -63,6 +63,6 @@
     "just-extend": "^4.0.2",
     "lolex": "^2.3.2",
     "path-to-regexp": "^1.7.0",
-    "text-encoding": "^0.6.4"
+    "@sinonjs/text-encoding": "^0.7.1"
   }
 }
