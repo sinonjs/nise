@@ -56,7 +56,7 @@
     "proxyquire": "^1.8.0",
     "proxyquire-universal": "^1.0.8",
     "proxyquireify": "^3.2.1",
-    "sinon": "^4.2.2"
+    "sinon": "^7"
   },
   "dependencies": {
     "@sinonjs/formatio": "^3.1.0",
