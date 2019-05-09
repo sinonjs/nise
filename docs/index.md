@@ -1,8 +1,8 @@
-# nise (偽)
+﻿# nise (偽)
 
 fake XHR and Server
 
-This module has been extracted from [Sinon.JS][sinon] and can be used standalone.
+This module has been extracted from [Sinon.JS][sinon] and can be used standalone. Sinon.JS will always be the "full package". However, there are use cases, where fake XHR and fake Server are needed but the rest of Sinon.JS not. That's the scenario of nise.
 
 ## Fake `XMLHttpRequest`
 
