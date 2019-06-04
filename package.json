@@ -60,7 +60,7 @@
     "@sinonjs/formatio": "^3.1.0",
     "@sinonjs/text-encoding": "^0.7.1",
     "just-extend": "^4.0.2",
-    "lolex": "^2.3.2",
+    "lolex": "^4.1.0",
     "path-to-regexp": "^1.7.0"
   },
   "husky": {
