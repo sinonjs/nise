@@ -7,24 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="None">
   
-  <link rel="shortcut icon" href="./img/favicon.ico">
-  <title>Home - nise</title>
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>nise (偽) - nise</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="./css/highlight.css">
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Home";
+    var mkdocs_page_name = "nise (\u507d)";
     var mkdocs_page_input_path = "index.md";
-    var mkdocs_page_url = "/";
+    var mkdocs_page_url = null;
   </script>
   
-  <script src="./js/jquery-2.1.1.min.js"></script>
-  <script src="./js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="./js/highlight.pack.js"></script> 
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
 
@@ -38,7 +39,7 @@
         <a href="." class="icon icon-home"> nise</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -49,61 +50,16 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href=".">Home</a>
+    <a class="current" href=".">nise (偽)</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#fake-xmlhttprequest">Fake XMLHttpRequest</a></li>
+    <li class="toctree-l2"><a href="#nise">nise (偽)</a></li>
     
         <ul>
         
-            <li><a class="toctree-l3" href="#usefakexmlhttprequest">useFakeXMLHttpRequest</a></li>
+            <li><a class="toctree-l3" href="#fake-xmlhttprequest">Fake XMLHttpRequest</a></li>
         
-            <li><a class="toctree-l3" href="#fakexmlhttprequest">FakeXMLHttpRequest</a></li>
-        
-            <li><a class="toctree-l3" href="#filtered-requests">Filtered requests</a></li>
-        
-            <li><a class="toctree-l3" href="#simulating-server-responses">Simulating server responses</a></li>
-        
-        </ul>
-    
-
-    <li class="toctree-l2"><a href="#fake-server">Fake server</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#var-server-fakeservercreateconfig">var server = fakeServer.create([config]);</a></li>
-        
-            <li><a class="toctree-l3" href="#var-server-fakeserverwithclockcreate">var server = fakeServerWithClock.create();</a></li>
-        
-            <li><a class="toctree-l3" href="#serverconfigureconfig">server.configure(config);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondwithresponse">server.respondWith(response);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondwithurl-response">server.respondWith(url, response);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondwithmethod-url-response">server.respondWith(method, url, response);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondwithurlregexp-response">server.respondWith(urlRegExp, response);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondwithmethod-urlregexp-response">server.respondWith(method, urlRegExp, response);</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespond">server.respond();</a></li>
-        
-            <li><a class="toctree-l3" href="#serverautorespond-true">server.autoRespond = true;</a></li>
-        
-            <li><a class="toctree-l3" href="#serverautorespondafter-ms">server.autoRespondAfter = ms;</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrespondimmediately-true">server.respondImmediately = true;</a></li>
-        
-            <li><a class="toctree-l3" href="#array-serverrequests">array server.requests</a></li>
-        
-            <li><a class="toctree-l3" href="#boolean-serverfakehttpmethods">Boolean server.fakeHTTPMethods</a></li>
-        
-            <li><a class="toctree-l3" href="#servergethttpmethodrequest">server.getHTTPMethod(request)</a></li>
-        
-            <li><a class="toctree-l3" href="#serverrestore">server.restore();</a></li>
-        
-            <li><a class="toctree-l3" href="#fake-server-options">Fake server options</a></li>
+            <li><a class="toctree-l3" href="#fake-server">Fake server</a></li>
         
         </ul>
     
@@ -133,7 +89,7 @@
     
       
     
-    <li>Home</li>
+    <li>nise (偽)</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/sinonjs/nise/edit/master/docs/index.md"
@@ -146,7 +102,7 @@
           <div role="main">
             <div class="section">
               
-                <p>﻿# nise (偽)</p>
+                <h1 id="nise">nise (偽)</h1>
 <p>fake XHR and Server</p>
 <p>This module has been extracted from <a href="http://sinonjs.org">Sinon.JS</a> and can be used standalone. Sinon.JS will always be the "full package". However, there are use cases, where fake XHR and fake Server are needed but the rest of Sinon.JS not. That's the scenario of nise.</p>
 <h2 id="fake-xmlhttprequest">Fake <code>XMLHttpRequest</code></h2>
@@ -382,12 +338,12 @@ request.</p>
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-	  
+      
         </div>
       </div>
 
     </section>
-    
+
   </div>
 
   <div class="rst-versions" role="note" style="cursor: pointer">
@@ -399,12 +355,14 @@ request.</p>
       
     </span>
 </div>
-    <script src="./js/theme.js"></script>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 0.16.3
-Build Date UTC : 2019-02-18 14:16:47
+MkDocs version : 1.0.4
+Build Date UTC : 2019-06-04 20:37:19
 -->
