@@ -23,9 +23,7 @@
     "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
     "test": "mocha lib/**/*.test.js",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
-    "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] lib/**/*.test.js",
-    "precommit": "npm run lint -- --fix && npm run test",
-    "prepush": "npm run lint && npm run test"
+    "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] lib/**/*.test.js"
   },
   "author": "",
   "license": "BSD-3-Clause",
@@ -47,7 +45,7 @@
     "eslint-config-sinon": "^1.0.1",
     "eslint-plugin-ie11": "1.0.0",
     "eslint-plugin-mocha": "^4.9.0",
-    "husky": "^0.14.3",
+    "husky": "^2.3.0",
     "jsdom": "11.6.2",
     "jsdom-global": "3.0.2",
     "mocha": "^6.1.4",
@@ -64,5 +62,11 @@
     "just-extend": "^4.0.2",
     "lolex": "^2.3.2",
     "path-to-regexp": "^1.7.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint -- --fix && npm run test",
+      "pre-push": "npm run lint && npm run test"
+    }
   }
 }
