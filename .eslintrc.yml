@@ -14,17 +14,18 @@ rules:
   ie11/no-weak-collections: error
 
 overrides:
-  files: '*.test.*'
-  env:
-    mocha: true
+  -
+    files: '*.test.*'
+    env:
+        mocha: true
 
-  plugins:
-    - mocha
+    plugins:
+        - mocha
 
-  rules:
-    mocha/no-exclusive-tests: error
-    mocha/no-identical-title: error
-    mocha/no-nested-tests: error
-    mocha/no-sibling-hooks: error
-    mocha/no-top-level-hooks: error
-    max-nested-callbacks: off
+    rules:
+        mocha/no-exclusive-tests: error
+        mocha/no-identical-title: error
+        mocha/no-nested-tests: error
+        mocha/no-sibling-hooks: error
+        mocha/no-top-level-hooks: error
+        max-nested-callbacks: off
