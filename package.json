@@ -52,7 +52,7 @@
     "mochify": "^6.3.0",
     "nyc": "^14.1.1",
     "proxyquire": "^1.8.0",
-    "proxyquire-universal": "^1.0.8",
+    "proxyquire-universal": "^2.1.0",
     "proxyquireify": "^3.2.1",
     "sinon": "^7.3.2"
   },
