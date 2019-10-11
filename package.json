@@ -17,13 +17,18 @@
   "main": "lib/index.js",
   "module": "nise.js",
   "scripts": {
-    "bundle": "browserify -s nise -o nise.js lib/index.js",
+    "bundle": "browserify --no-detect-globals -s nise -o nise.js lib/index.js",
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
     "test": "mocha lib/**/*.test.js",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
-    "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] lib/**/*.test.js"
+    "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] --no-detect-globals test/global-hack.js lib/**/*.test.js"
+  },
+  "browser": {
+    "jsdom": false,
+    "jsdom-global": false,
+    "@sinonjs/text-encoding": false
   },
   "author": "",
   "license": "BSD-3-Clause",
@@ -49,7 +54,7 @@
     "jsdom": "^15.1.1",
     "jsdom-global": "3.0.2",
     "mocha": "^6.2.0",
-    "mochify": "^6.3.0",
+    "mochify": "^6.6.0",
     "nyc": "^14.1.1",
     "proxyquire": "^1.8.0",
     "proxyquire-universal": "^2.1.0",
@@ -60,7 +65,7 @@
     "@sinonjs/formatio": "^3.2.1",
     "@sinonjs/text-encoding": "^0.7.1",
     "just-extend": "^4.0.2",
-    "lolex": "^4.1.0",
+    "lolex": "^5.0.1",
     "path-to-regexp": "^1.7.0"
   },
   "husky": {
