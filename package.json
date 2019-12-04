@@ -46,7 +46,7 @@
     "@sinonjs/referee": "^3.2.0",
     "browserify": "^16.2.3",
     "eslint": "^6.1.0",
-    "eslint-config-sinon": "^1.0.1",
+    "eslint-config-sinon": "^3.0.1",
     "eslint-plugin-ie11": "1.0.0",
     "eslint-plugin-mocha": "^6.1.1",
     "husky": "^3.0.7",
