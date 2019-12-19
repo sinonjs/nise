@@ -62,6 +62,7 @@
     "sinon": "^7.3.2"
   },
   "dependencies": {
+    "@sinonjs/commons": "^1.7.0",
     "@sinonjs/formatio": "^3.2.1",
     "@sinonjs/text-encoding": "^0.7.1",
     "just-extend": "^4.0.2",
