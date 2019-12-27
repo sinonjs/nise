@@ -27,8 +27,7 @@
   },
   "browser": {
     "jsdom": false,
-    "jsdom-global": false,
-    "@sinonjs/text-encoding": false
+    "jsdom-global": false
   },
   "author": "",
   "license": "BSD-3-Clause",
