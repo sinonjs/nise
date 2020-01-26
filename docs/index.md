@@ -1,8 +1,8 @@
-﻿# nise (偽)
+# `@sinonjs/fake-xhr-and-server`
 
 fake XHR and Server
 
-This module has been extracted from [Sinon.JS][sinon] and can be used standalone. Sinon.JS will always be the "full package". However, there are use cases, where fake XHR and fake Server are needed but the rest of Sinon.JS not. That's the scenario of nise.
+This module has been extracted from [Sinon.JS][sinon] and can be used standalone. Sinon.JS will always be the "full package". However, there are use cases, where fake XHR and fake Server are needed but the rest of Sinon.JS not. That's the scenario of `@sinonjs/fake-xhr-and-server`.
 
 ## Fake `XMLHttpRequest`
 
@@ -12,7 +12,7 @@ several interfaces for manipulating objects created by it.
 Also fakes native `XMLHttpRequest` and `ActiveXObject` (when available, and only for `XMLHTTP` progids). Helps with testing requests made with `XHR`.
 
 ```js
-var fakeXhr = require("nise").fakeXhr;
+var fakeXhr = require("@sinonjs/fake-xhr-and-server").fakeXhr;
 var sinon = require("sinon");
 
 {
@@ -200,7 +200,7 @@ High-level API to manipulate `FakeXMLHttpRequest` instances.
 <small>For help with handling JSON-P please refer to our [notes below](#json-p)</small>
 
 ```js
-var fakeServer = require("nise").fakeServer;
+var fakeServer = require("@sinonjs/fake-xhr-and-server").fakeServer;
 var sinon = require("sinon");
 
 {

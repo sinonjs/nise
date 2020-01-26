@@ -80,7 +80,7 @@ jobs:
 
 workflows:
   version: 2
-  nise:
+  verify:
     jobs:
       - install-dependencies
       - lint:

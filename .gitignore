@@ -1,4 +1,4 @@
 node_modules/
-nise.js
+fake-xhr-and-server.js
 coverage/
 site/

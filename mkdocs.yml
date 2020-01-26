@@ -1,3 +1,3 @@
-site_name: nise
+site_name: "@sinonjs/fake-xhr-and-server"
 theme: readthedocs
-repo_url: https://github.com/sinonjs/nise/
+repo_url: https://github.com/sinonjs/fake-xhr-and-server/

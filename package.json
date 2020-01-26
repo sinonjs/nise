@@ -1,5 +1,5 @@
 {
-  "name": "nise",
+  "name": "@sinonjs/fake-xhr-and-server",
   "version": "3.0.1",
   "description": "Fake XHR and server",
   "keywords": [
@@ -12,12 +12,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/sinonjs/nise.git"
+    "url": "http://github.com/sinonjs/fake-xhr-and-server.git"
   },
   "main": "lib/index.js",
-  "module": "nise.js",
+  "module": "fake-xhr-and-server.js",
   "scripts": {
-    "bundle": "browserify --no-detect-globals -s nise -o nise.js lib/index.js",
+    "bundle": "browserify --no-detect-globals -s FakeXhrAndServer -o fake-xhr-and-server.js lib/index.js",
     "lint": "eslint .",
     "prepublish": "npm run bundle",
     "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
@@ -33,13 +33,13 @@
   "license": "BSD-3-Clause",
   "nyc": {
     "exclude": [
-      "nise.js",
+      "fake-xhr-and-server.js",
       "coverage/**",
       "**/*.test.js"
     ]
   },
   "files": [
-    "nise.js",
+    "fake-xhr-and-server.js",
     "lib/**/*.js"
   ],
   "devDependencies": {

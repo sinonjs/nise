@@ -1,12 +1,12 @@
-# nise (偽)
+# `@sinonjs/fake-xhr-and-server`
 
-[![npm version](https://img.shields.io/npm/v/nise.svg?style=flat)](https://www.npmjs.com/package/nise)
-[![CircleCI](https://circleci.com/gh/sinonjs/nise.svg?style=svg)](https://circleci.com/gh/sinonjs/nise)
-[![codecov](https://codecov.io/gh/sinonjs/nise/branch/master/graph/badge.svg)](https://codecov.io/gh/sinonjs/nise)
+[![npm version](https://img.shields.io/npm/v/@sinonjs/fake-xhr-and-server.svg?style=flat)](https://www.npmjs.com/package/@sinonjs/fake-xhr-and-server)
+[![CircleCI](https://circleci.com/gh/sinonjs/fake-xhr-and-server.svg?style=svg)](https://circleci.com/gh/sinonjs/fake-xhr-and-server)
+[![codecov](https://codecov.io/gh/sinonjs/fake-xhr-and-server/branch/master/graph/badge.svg)](https://codecov.io/gh/sinonjs/fake-xhr-and-server)
 
 fake XHR and Server
 
-Documentation: http://sinonjs.github.io/nise/
+Documentation: http://sinonjs.github.io/fake-xhr-and-server/
 
 ## Backers
 
@@ -81,4 +81,4 @@ Become a sponsor and get your logo on our README on GitHub with a link to your s
 
 ## Licence
 
-nise was released under [BSD-3](LICENSE)
+`@sinonjs/fake-xhr-and-server` was released under [BSD-3](LICENSE)
