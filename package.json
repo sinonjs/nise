@@ -1,6 +1,6 @@
 {
   "name": "nise",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Fake XHR and server",
   "keywords": [
     "test",
