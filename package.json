@@ -66,7 +66,6 @@
   "dependencies": {
     "@sinonjs/commons": "^1.7.0",
     "@sinonjs/fake-timers": "^6.0.0",
-    "@sinonjs/formatio": "^5.0.1",
     "@sinonjs/text-encoding": "^0.7.1",
     "just-extend": "^4.0.2",
     "path-to-regexp": "^1.7.0"
