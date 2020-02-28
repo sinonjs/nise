@@ -2,3 +2,4 @@ node_modules/
 nise.js
 coverage/
 site/
+.nyc_output/
