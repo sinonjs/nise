@@ -68,7 +68,7 @@
     "@sinonjs/fake-timers": "^6.0.0",
     "@sinonjs/text-encoding": "^0.7.1",
     "just-extend": "^4.0.2",
-    "path-to-regexp": "^1.7.0"
+    "path-to-regexp": "^6.1.0"
   },
   "husky": {
     "hooks": {
