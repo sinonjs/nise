@@ -69,9 +69,9 @@ jobs:
           name: Upload coverage report
           command: bash <(curl -s https://codecov.io/bash) -F unit -s coverage/lcov.info
 
-  node-13:
+  node-14:
     docker:
-      - image: circleci/node:13
+      - image: circleci/node:14
     steps:
       - *attach-step
       - run:
@@ -93,6 +93,6 @@ workflows:
       - node-12:
           requires:
             - install-dependencies
-      - node-13:
+      - node-14:
           requires:
             - install-dependencies
