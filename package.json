@@ -54,6 +54,7 @@
     "husky": "^4.2.1",
     "jsdom": "^16.2.0",
     "jsdom-global": "3.0.2",
+    "lint-staged": "^10.5.3",
     "mocha": "^7.0.1",
     "mochify": "^6.6.0",
     "nyc": "^15.0.0",
@@ -70,9 +71,12 @@
     "just-extend": "^4.0.2",
     "path-to-regexp": "^1.7.0"
   },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
   }
 }
