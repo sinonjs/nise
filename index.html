@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="None">
   
+  
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>nise (偽) - nise</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <title>nise</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="js/jquery-2.1.1.min.js" defer></script>
   <script src="js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="." class="icon icon-home"> nise</a>
         <div role="search">
@@ -45,31 +47,130 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href=".">nise (偽)</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#nise">nise (偽)</a></li>
-    
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">nise (偽)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#fake-xmlhttprequest">Fake XMLHttpRequest</a>
         <ul>
-        
-            <li><a class="toctree-l3" href="#fake-xmlhttprequest">Fake XMLHttpRequest</a></li>
-        
-            <li><a class="toctree-l3" href="#fake-server">Fake server</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#usefakexmlhttprequest">useFakeXMLHttpRequest</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#var-xhr-fakexhrusefakexmlhttprequest">var xhr = fakeXhr.useFakeXMLHttpRequest();</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#xhroncreate-function-xhr">xhr.onCreate = function (xhr) {};</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#xhrrestore">xhr.restore();</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fakexmlhttprequest">FakeXMLHttpRequest</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requesturl">String request.url</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requestmethod">String request.method</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#object-requestrequestheaders">Object request.requestHeaders</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requestrequestbody">String request.requestBody</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#int-requeststatus">int request.status</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requeststatustext">String request.statusText</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#boolean-requestasync">boolean request.async</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requestusername">String request.username</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requestpassword">String request.password</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#document-requestresponsexml">Document request.responseXML</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#string-requestgetresponseheaderheader">String request.getResponseHeader(header);</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#object-requestgetallresponseheaders">Object request.getAllResponseHeaders();</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filtered-requests">Filtered requests</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#fakexmlhttprequestusefilters">FakeXMLHttpRequest.useFilters</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#fakexmlhttprequestaddfilterfn">FakeXMLHttpRequest.addFilter(fn)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#simulating-server-responses">Simulating server responses</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#requestsetstatusstatus">request.setStatus(status);</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#requestsetresponseheadersobject">request.setResponseHeaders(object);</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#requestsetresponsebodybody">request.setResponseBody(body);</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#requestrespondstatus-headers-body">request.respond(status, headers, body);</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#requesterror">request.error();</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#boolean-requestautorespond">Boolean request.autoRespond</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#number-requestautorespondafter">Number request.autoRespondAfter</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fake-server">Fake server</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#var-server-fakeservercreateconfig">var server = fakeServer.create([config]);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#var-server-fakeserverwithclockcreate">var server = fakeServerWithClock.create();</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverconfigureconfig">server.configure(config);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondwithresponse">server.respondWith(response);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondwithurl-response">server.respondWith(url, response);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondwithmethod-url-response">server.respondWith(method, url, response);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondwithurlregexp-response">server.respondWith(urlRegExp, response);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondwithmethod-urlregexp-response">server.respondWith(method, urlRegExp, response);</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespond">server.respond();</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverautorespond-true">server.autoRespond = true;</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverautorespondafter-ms">server.autoRespondAfter = ms;</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrespondimmediately-true">server.respondImmediately = true;</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#array-serverrequests">array server.requests</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#boolean-serverfakehttpmethods">Boolean server.fakeHTTPMethods</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#servergethttpmethodrequest">server.getHTTPMethod(request)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#serverrestore">server.restore();</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fake-server-options">Fake server options</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#boolean-autorespond">Boolean autoRespond</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#number-autorespondafter-ms">Number autoRespondAfter (ms)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#boolean-respondimmediately">Boolean respondImmediately</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#boolean-fakehttpmethods">boolean fakeHTTPMethods</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
     </ul>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -97,6 +198,7 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
@@ -268,8 +370,12 @@ request.</p>
 <h4 id="serverrespondwithurlregexp-response"><code>server.respondWith(urlRegExp, response);</code></h4>
 <p>URL may be a regular expression, e.g. <code>/\\/post\\//\\d+</code></p>
 <p>If the response is a <code>Function</code>, it will be passed any capture groups from the regular expression along with the XMLHttpRequest object:</p>
-<pre><code class="js">server.respondWith(/\/todo-items\/(\d+)/, function (xhr, id) {
-    xhr.respond(200, { &quot;Content-Type&quot;: &quot;application/json&quot; }, '[{ &quot;id&quot;: ' + id + &quot; }]&quot;);
+<pre><code class="js">server.respondWith(/\/todo-items\/(\d+)/, function(xhr, id) {
+    xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        '[{ &quot;id&quot;: ' + id + &quot; }]&quot;
+    );
 });
 </code></pre>
 
@@ -304,7 +410,7 @@ request.</p>
 <p>Restores the native XHR constructor.</p>
 <h3 id="fake-server-options">Fake server options</h3>
 <p>These options are properties on the server object and can be set directly</p>
-<pre><code class="js">server.autoRespond = true
+<pre><code class="js">server.autoRespond = true;
 </code></pre>
 
 <p>You can also pass options with an object literal to <code>fakeServer.create</code> and <code>.configure</code>.</p>
@@ -336,7 +442,7 @@ request.</p>
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -346,7 +452,7 @@ request.</p>
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
           <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
@@ -358,11 +464,16 @@ request.</p>
     <script>var base_url = '.';</script>
     <script src="js/theme.js" defer></script>
       <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 1.0.4
-Build Date UTC : 2020-06-26 09:01:29
+MkDocs version : 1.1.2
+Build Date UTC : 2021-02-20 09:13:10.310892+00:00
 -->
