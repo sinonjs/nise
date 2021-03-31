@@ -75,7 +75,7 @@
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --check",
-    "*.js": "eslint"
+    "*.js": "eslint --quiet"
   },
   "husky": {
     "hooks": {
