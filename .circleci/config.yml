@@ -46,7 +46,7 @@ jobs:
             - *attach-step
             - run:
                   name: lint
-                  command: npm run lint
+                  command: npm run lint -- --quiet
 
     prettier:
         <<: *work-dir
