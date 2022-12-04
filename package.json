@@ -42,7 +42,8 @@
   },
   "files": [
     "nise.js",
-    "lib/**/*.js"
+    "lib/**/*.js",
+    "!lib/**/*.test.js"
   ],
   "devDependencies": {
     "@sinonjs/eslint-config": "^4.0.0",
