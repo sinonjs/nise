@@ -262,11 +262,11 @@ URL may be a regular expression, e.g. `/\\/post\\//\\d+`
 If the response is a `Function`, it will be passed any capture groups from the regular expression along with the XMLHttpRequest object:
 
 ```js
-server.respondWith(/\/todo-items\/(\d+)/, function(xhr, id) {
+server.respondWith(/\/todo-items\/(\d+)/, function (xhr, id) {
     xhr.respond(
         200,
         { "Content-Type": "application/json" },
-        '[{ "id": ' + id + " }]"
+        '[{ "id": ' + id + " }]",
     );
 });
 ```
