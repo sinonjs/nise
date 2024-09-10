@@ -22,7 +22,7 @@
     "prettier:check": "prettier --check '**/*.{js,css,md}'",
     "prettier:write": "prettier --write '**/*.{js,css,md}'",
     "prepare": "npm run bundle",
-    "prepublishOnly": "mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
+    "prepublishOnly": "git pull && mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
     "test": "mocha lib/**/*.test.js",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
     "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] --no-detect-globals test/global-hack.js lib/**/*.test.js"
