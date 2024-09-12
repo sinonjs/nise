@@ -342,7 +342,7 @@ var sinon = require(&quot;sinon&quot;);
 <p>This function also calls <code>useFakeXMLHttpRequest()</code>.</p>
 <p><code>create</code> accepts optional properties to configure the fake server. See <a href="#options">options</a> below for configuration parameters.</p>
 <h4 id="var-server-fakeserverwithclockcreate"><code>var server = fakeServerWithClock.create();</code></h4>
-<p>Creates a server that also manages fake timers.</p>
+<p>Creates a server that also manages <a href="https://github.com/sinonjs/fake-timers">fake timers</a>.</p>
 <p>This is useful when testing <code>XHR</code> objects created with e.g. jQuery 1.3.x, which uses a timer to poll the object for completion, rather than the usual <code>onreadystatechange</code>.</p>
 <h4 id="serverconfigureconfig"><code>server.configure(config);</code></h4>
 <p>Configures the fake server.</p>
@@ -473,5 +473,5 @@ request.</p>
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2024-09-10 14:06:54.883983+00:00
+Build Date UTC : 2024-09-12 23:06:44.121361+00:00
 -->
