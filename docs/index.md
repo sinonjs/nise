@@ -1,4 +1,4 @@
-﻿# nise (偽)
+# nise (偽)
 
 fake XHR and Server
 
@@ -219,7 +219,7 @@ This function also calls `useFakeXMLHttpRequest()`.
 
 #### `var server = fakeServerWithClock.create();`
 
-Creates a server that also manages fake timers.
+Creates a server that also manages [fake timers](https://github.com/sinonjs/fake-timers).
 
 This is useful when testing `XHR` objects created with e.g. jQuery 1.3.x, which uses a timer to poll the object for completion, rather than the usual `onreadystatechange`.
 
