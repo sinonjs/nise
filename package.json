@@ -17,7 +17,7 @@
   "main": "lib/index.js",
   "module": "nise.js",
   "scripts": {
-    "bundle": "browserify --no-detect-globals -s nise -o nise.js lib/index.js",
+    "bundle": "browserify  -x timers -x timers/promises --no-detect-globals -s nise -o nise.js lib/index.js",
     "lint": "eslint --max-warnings 35 .",
     "prettier:check": "prettier --check '**/*.{js,css,md}'",
     "prettier:write": "prettier --write '**/*.{js,css,md}'",
