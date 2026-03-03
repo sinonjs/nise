@@ -4,3 +4,4 @@ coverage/
 site/
 .nyc_output/
 .worktrees/
+docs/plans/
