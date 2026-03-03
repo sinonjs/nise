@@ -3,3 +3,4 @@ nise.js
 coverage/
 site/
 .nyc_output/
+.worktrees/

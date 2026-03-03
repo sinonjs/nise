@@ -3,7 +3,7 @@ name: Node CI
 on: [push]
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
     prettier:
@@ -58,7 +58,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
-                  node-version: "20"
+                  node-version: "22"
             - name: Cache npm
               uses: actions/cache@v4
               with:
@@ -82,7 +82,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [16]
+                node-version: [22, 24, 25]
 
         steps:
             - uses: actions/checkout@v4
