@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Issue 194 HTML Document Support Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Issue 194 HTML Document Support Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-03-issue-194-html-document-support.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Issue 194 HTML Document Support Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-reproduce-the-missing-html-document-behavior">Task 1: Reproduce the missing HTML document behavior</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-implement-native-html-document-parsing">Task 2: Implement native HTML document parsing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-add-regression-coverage-around-existing-document-behavior">Task 3: Add regression coverage around existing document behavior</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-4-verify-the-full-fake-xhr-suite">Task 4: Verify the full fake XHR suite</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Issue 194 HTML Document Support Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-issue-194-html-document-support.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="issue-194-html-document-support-implementation-plan">Issue 194 HTML Document Support Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Fix <code>FakeXMLHttpRequest</code> so <code>responseType = "document"</code> supports <code>Content-Type: text/html</code> when a native <code>DOMParser</code> is present, while preserving the existing XML-only fallback behavior when no parser is available.</p>
+<p><strong>Architecture:</strong> Keep the change inside the fake XHR response-conversion path. XML content types should continue to use <code>FakeXMLHttpRequest.parseXML</code>, and <code>text/html</code> should take a separate native-parser branch that returns <code>null</code> if <code>DOMParser</code> is unavailable. Tests should exercise both the HTML success case and the no-parser null case without introducing new dependencies.</p>
+<p><strong>Tech Stack:</strong> Node.js, Mocha, jsdom, proxyquire, nise fake XHR implementation</p>
+<hr />
+<h3 id="task-1-reproduce-the-missing-html-document-behavior">Task 1: Reproduce the missing HTML document behavior</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Add a focused failing test for HTML document responses</strong></p>
+<p>Add a test near the existing <code>.response</code> or <code>.responseXML</code> coverage:</p>
+<pre><code class="language-js">it(&quot;parses HTML for responseType document when Content-Type is text/html&quot;, function () {
+    this.xhr.responseType = &quot;document&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;text/html&quot; },
+        &quot;&lt;!doctype html&gt;&lt;html&gt;&lt;body&gt;&lt;main&gt;&lt;h1&gt;Hola!&lt;/h1&gt;&lt;/main&gt;&lt;/body&gt;&lt;/html&gt;&quot;,
+    );
+
+    var doc = this.xhr.response;
+    assert.equals(doc.documentElement.tagName, &quot;HTML&quot;);
+    assert.equals(doc.getElementsByTagName(&quot;h1&quot;)[0].textContent, &quot;Hola!&quot;);
+});
+</code></pre>
+<p><strong>Step 2: Run the focused test to verify it fails</strong></p>
+<p>Run: <code>npm test -- --grep "parses HTML for responseType document when Content-Type is text/html"</code>
+Expected: FAIL because the current <code>document</code> branch returns <code>null</code> for <code>text/html</code>.</p>
+<p><strong>Step 3: Add a no-parser expectation test</strong></p>
+<p>Add a second focused test:</p>
+<pre><code class="language-js">it(&quot;returns null for HTML document responses when DOMParser is unavailable&quot;, function () {
+    this.xhr.responseType = &quot;document&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    delete global.DOMParser;
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;text/html&quot; },
+        &quot;&lt;!doctype html&gt;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hola!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;,
+    );
+
+    assert.isNull(this.xhr.response);
+});
+</code></pre>
+<p>Restore <code>global.DOMParser</code> inside the test or in a <code>try/finally</code> block so later tests are unaffected.</p>
+<p><strong>Step 4: Run the focused no-parser test</strong></p>
+<p>Run: <code>npm test -- --grep "returns null for HTML document responses when DOMParser is unavailable"</code>
+Expected: PASS after the test is written, because the current implementation already returns <code>null</code> for non-XML content.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.test.js
+git commit -m &quot;test: reproduce missing html document response support&quot;
+</code></pre>
+<h3 id="task-2-implement-native-html-document-parsing">Task 2: Implement native HTML document parsing</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Add a narrow content-type helper if it improves readability</strong></p>
+<p>If needed, add a helper like:</p>
+<pre><code class="language-js">function isHtmlContentType(contentType) {
+    return /text\/html/i.test(contentType || &quot;&quot;);
+}
+</code></pre>
+<p>Keep it specific to <code>text/html</code>. Do not broaden to all HTML-like MIME types unless the browser behavior is verified and intentionally in scope.</p>
+<p><strong>Step 2: Add a native HTML parsing helper or inline branch</strong></p>
+<p>Use one of these minimal shapes:</p>
+<pre><code class="language-js">function parseHTML(text) {
+    if (text === &quot;&quot; || typeof DOMParser === &quot;undefined&quot;) {
+        return null;
+    }
+
+    return new DOMParser().parseFromString(text, &quot;text/html&quot;);
+}
+</code></pre>
+<p>or inline the same logic directly inside <code>convertResponseBody</code>.</p>
+<p><strong>Step 3: Update <code>convertResponseBody</code> for <code>responseType === "document"</code></strong></p>
+<p>Change the existing branch from:</p>
+<pre><code class="language-js">} else if (responseType === &quot;document&quot;) {
+    if (isXmlContentType(contentType)) {
+        return FakeXMLHttpRequest.parseXML(body);
+    }
+    return null;
+}
+</code></pre>
+<p>to logic equivalent to:</p>
+<pre><code class="language-js">} else if (responseType === &quot;document&quot;) {
+    if (isXmlContentType(contentType)) {
+        return FakeXMLHttpRequest.parseXML(body);
+    }
+    if (isHtmlContentType(contentType)) {
+        return parseHTML(body);
+    }
+    return null;
+}
+</code></pre>
+<p>Keep XML precedence unchanged.</p>
+<p><strong>Step 4: Run the focused HTML tests</strong></p>
+<p>Run: <code>npm test -- --grep "HTML document responses|responseType document when Content-Type is text/html"</code>
+Expected: both focused HTML tests PASS.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.js lib/fake-xhr/index.test.js
+git commit -m &quot;fix: support html documents for fake xhr responseType&quot;
+</code></pre>
+<h3 id="task-3-add-regression-coverage-around-existing-document-behavior">Task 3: Add regression coverage around existing document behavior</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Verify the new tests live with the existing document coverage</strong></p>
+<p>Place the HTML tests near the current <code>.response</code> and <code>.responseXML</code> cases so future changes to document parsing are reviewed together.</p>
+<p><strong>Step 2: Add one assertion that XML behavior is still routed to XML parsing</strong></p>
+<p>If current coverage is not explicit enough for the <code>responseType = "document"</code> path, add:</p>
+<pre><code class="language-js">it(&quot;still parses XML for responseType document with application/xml&quot;, function () {
+    this.xhr.responseType = &quot;document&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;application/xml&quot; },
+        &quot;&lt;root&gt;&lt;item&gt;Hola!&lt;/item&gt;&lt;/root&gt;&quot;,
+    );
+
+    assert.equals(
+        this.xhr.response.getElementsByTagName(&quot;item&quot;)[0].textContent,
+        &quot;Hola!&quot;,
+    );
+});
+</code></pre>
+<p>Add this only if the existing tests do not already pin the <code>responseType = "document"</code> XML case tightly enough.</p>
+<p><strong>Step 3: Run the document-focused subset</strong></p>
+<p>Run: <code>npm test -- --grep "responseXML|responseType document"</code>
+Expected: PASS</p>
+<p><strong>Step 4: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.test.js
+git commit -m &quot;test: cover fake xhr document response parsing&quot;
+</code></pre>
+<h3 id="task-4-verify-the-full-fake-xhr-suite">Task 4: Verify the full fake XHR suite</h3>
+<p><strong>Files:</strong>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run the fake XHR test file</strong></p>
+<p>Run: <code>npm test -- lib/fake-xhr/index.test.js</code>
+Expected: PASS</p>
+<p><strong>Step 2: Run the full test suite</strong></p>
+<p>Run: <code>npm test</code>
+Expected: PASS</p>
+<p><strong>Step 3: Run lint if control flow or helpers changed</strong></p>
+<p>Run: <code>npm run lint</code>
+Expected: PASS</p>
+<p><strong>Step 4: Inspect the final diff</strong></p>
+<p>Run: <code>git diff --stat</code>
+Expected: only <code>lib/fake-xhr/index.js</code>, <code>lib/fake-xhr/index.test.js</code>, and the plan docs changed.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.js lib/fake-xhr/index.test.js docs/plans/2026-03-03-issue-194-html-document-support*.md
+git commit -m &quot;fix: add html document support to fake xhr&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-issue-194-html-document-support-design/" class="btn btn-neutral float-left" title="Issue 194 HTML Document Support Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-issue-243-text-encoder-design/" class="btn btn-neutral float-right" title="Issue 243 Text Encoder Dependency Removal Design">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-issue-194-html-document-support-design/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-issue-243-text-encoder-design/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

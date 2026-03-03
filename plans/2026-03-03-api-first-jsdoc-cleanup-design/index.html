@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>API-First JSDoc Cleanup Design - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API-First JSDoc Cleanup Design";
+        var mkdocs_page_input_path = "plans/2026-03-03-api-first-jsdoc-cleanup-design.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">API-First JSDoc Cleanup Design</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#goal">Goal</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#current-state">Current State</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#desired-policy">Desired Policy</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommended-approach">Recommended Approach</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#approach-1-api-first-cleanup-with-minimal-internal-coverage">Approach 1: API-first cleanup with minimal internal coverage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#approach-2-full-warning-burn-down">Approach 2: Full warning burn-down</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#approach-3-api-first-cleanup-plus-lint-policy-adjustment">Approach 3: API-first cleanup plus lint policy adjustment</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommendation">Recommendation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#scope-notes">Scope Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#verification">Verification</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">API-First JSDoc Cleanup Design</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-api-first-jsdoc-cleanup-design.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="api-first-jsdoc-cleanup-design">API-First JSDoc Cleanup Design</h1>
+<p><strong>Date:</strong> 2026-03-03</p>
+<h2 id="goal">Goal</h2>
+<p>Reduce the current lint warning set by documenting the actual library-facing API first, instead of mechanically adding JSDoc to every private helper.</p>
+<h2 id="current-state">Current State</h2>
+<p>Running:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 .
+</code></pre>
+<p>reports 37 warnings, all from JSDoc-related rules. The warnings are concentrated in:</p>
+<ul>
+<li><code>lib/fake-xhr/index.js</code></li>
+<li><code>lib/fake-server/index.js</code></li>
+<li><code>lib/configure-logger/index.js</code></li>
+<li><code>lib/event/*.js</code></li>
+<li><code>lib/fake-server/fake-server-with-clock.js</code></li>
+<li><code>lib/fake-server/log.js</code></li>
+</ul>
+<p>Most warnings are <code>jsdoc/require-jsdoc</code>. A smaller number are shape-quality warnings such as <code>jsdoc/reject-function-type</code> and a missing <code>@param</code>.</p>
+<h2 id="desired-policy">Desired Policy</h2>
+<p>The primary documentation target is the public/exported API surface:</p>
+<ul>
+<li>CommonJS exports</li>
+<li>exported constructors</li>
+<li>exported prototype methods that make up the library API</li>
+</ul>
+<p>Private helpers should only receive JSDoc when one of these is true:</p>
+<ul>
+<li>the helper is complex enough that the comment materially improves comprehension</li>
+<li>lint requires it and there is no cleaner way to avoid low-value comment churn</li>
+<li>the helper’s contract is subtle enough that documenting inputs/outputs reduces maintenance risk</li>
+</ul>
+<p>Trivial local helpers should not be documented just to satisfy a documentation aesthetic. If the current lint configuration effectively requires that, the cleanup should expose the gap instead of pretending the policy is already aligned.</p>
+<h2 id="recommended-approach">Recommended Approach</h2>
+<h3 id="approach-1-api-first-cleanup-with-minimal-internal-coverage">Approach 1: API-first cleanup with minimal internal coverage</h3>
+<p>Document exported constructors, exported factories, and public prototype methods with proper JSDoc. For remaining warnings, add short, accurate internal JSDoc only where the function is non-trivial or lint leaves no better option.</p>
+<p><strong>Pros</strong></p>
+<ul>
+<li>aligns with the desired documentation style</li>
+<li>improves generated/consumer-facing docs where they matter</li>
+<li>avoids turning internal files into comment-heavy noise</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>may not reach zero warnings if lint is stricter than the desired policy</li>
+</ul>
+<h3 id="approach-2-full-warning-burn-down">Approach 2: Full warning burn-down</h3>
+<p>Add JSDoc everywhere ESLint asks for it.</p>
+<p><strong>Pros</strong></p>
+<ul>
+<li>quickest route to a fully green lint run</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>high comment noise</li>
+<li>low-value docs on private helpers</li>
+<li>makes future maintenance worse if comments become boilerplate</li>
+</ul>
+<h3 id="approach-3-api-first-cleanup-plus-lint-policy-adjustment">Approach 3: API-first cleanup plus lint policy adjustment</h3>
+<p>Document the public API properly, then adjust JSDoc lint rules so private helpers are no longer required to have comments.</p>
+<p><strong>Pros</strong></p>
+<ul>
+<li>best long-term alignment between policy and desired code style</li>
+<li>removes incentive for comment spam</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>changes repo-wide lint policy</li>
+<li>requires more care and team consensus than a pure code cleanup</li>
+</ul>
+<h2 id="recommendation">Recommendation</h2>
+<p>Start with Approach 1. It is the lowest-risk path and should remove a meaningful portion of the warnings while improving the docs that users of the library are most likely to need.</p>
+<p>After the API-first pass:</p>
+<ul>
+<li>if lint is green, stop</li>
+<li>if only a small number of useful internal docs remain, add them</li>
+<li>if the remaining warnings are overwhelmingly trivial private helpers, propose a follow-up lint policy change rather than adding boilerplate comments</li>
+</ul>
+<h2 id="scope-notes">Scope Notes</h2>
+<ul>
+<li>Treat CommonJS exports and exported constructor/prototype APIs as public.</li>
+<li>Prefer concrete parameter and return types over generic <code>Function</code>.</li>
+<li>Fix malformed existing JSDoc when touched.</li>
+<li>Do not rewrite modules just to manufacture better doc locations unless the existing structure makes the public API impossible to document cleanly.</li>
+</ul>
+<h2 id="verification">Verification</h2>
+<p>Primary check:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 .
+</code></pre>
+<p>Success criteria:</p>
+<ul>
+<li>warning count decreases materially</li>
+<li>public/exported APIs have clear JSDoc</li>
+<li>remaining warnings, if any, are mostly private-helper noise and can be evaluated for a lint-policy follow-up</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-02-node-22-compat/" class="btn btn-neutral float-left" title="Node 22 Compatibility Implementation Plan"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-api-first-jsdoc-cleanup/" class="btn btn-neutral float-right" title="API-First JSDoc Cleanup Implementation Plan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-02-node-22-compat/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-api-first-jsdoc-cleanup/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

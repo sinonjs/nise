@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Node 22 Compatibility Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Node 22 Compatibility Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-02-node-22-compat.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Node 22 Compatibility Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-reproduce-the-node-22-failure-mode">Task 1: Reproduce the Node 22 failure mode</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-narrow-runtime-capability-detection-in-production-code">Task 2: Narrow runtime capability detection in production code</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-update-blob-assertions-to-avoid-a-hard-filereader-dependency">Task 3: Update blob assertions to avoid a hard FileReader dependency</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-4-align-ci-with-supported-node-versions">Task 4: Align CI with supported Node versions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-5-full-verification">Task 5: Full verification</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Node 22 Compatibility Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-02-node-22-compat.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="node-22-compatibility-implementation-plan">Node 22 Compatibility Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Fix fake XHR compatibility for supported Node runtimes (<code>&gt;= 22</code>) by separating <code>Blob</code>, <code>FileReader</code>, and <code>FormData</code> detection, updating tests, and aligning CI with the supported Node baseline.</p>
+<p><strong>Architecture:</strong> The fix should remove the assumption that <code>Blob</code> and <code>FileReader</code> always coexist. Production code should gate behavior on the narrow capability each path actually needs, while tests should use APIs that exist in supported Node versions. CI should reflect the new Node <code>&gt;= 22</code> support policy directly.</p>
+<p><strong>Tech Stack:</strong> Node.js, Mocha, jsdom, GitHub Actions, nise fake XHR implementation</p>
+<hr />
+<h3 id="task-1-reproduce-the-node-22-failure-mode">Task 1: Reproduce the Node 22 failure mode</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Add or adjust a failing test that captures the current incorrect assumption</strong></p>
+<p>Add a focused test near the existing blob/form-data coverage that proves the current code couples blob behavior to <code>FileReader</code> or uses an outdated capability guard.</p>
+<pre><code class="language-js">it(&quot;supports blob responses when Blob exists without requiring FileReader&quot;, function () {
+    this.xhr.responseType = &quot;blob&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;application/octet-stream&quot; },
+        &quot;blob body&quot;,
+    );
+
+    assert.equals(this.xhr.response.constructor.name, &quot;Blob&quot;);
+});
+</code></pre>
+<p><strong>Step 2: Run the focused test to verify it fails or exposes the current mismatch</strong></p>
+<p>Run: <code>npm test -- --grep "supports blob responses when Blob exists without requiring FileReader"</code>
+Expected: FAIL or demonstrate that existing blob tests are gated incorrectly for Node 22.</p>
+<p><strong>Step 3: Add a focused test for FormData header handling under supported Node</strong></p>
+<pre><code class="language-js">it(&quot;does not set Content-Type for FormData payloads&quot;, function () {
+    this.xhr.open(&quot;POST&quot;, &quot;/&quot;);
+    var formData = new FormData();
+    formData.append(&quot;username&quot;, &quot;biz&quot;);
+
+    this.xhr.send(formData);
+
+    assert.isUndefined(this.xhr.requestHeaders[&quot;Content-Type&quot;]);
+    assert.isUndefined(this.xhr.requestHeaders[&quot;content-type&quot;]);
+});
+</code></pre>
+<p><strong>Step 4: Run the focused FormData test</strong></p>
+<p>Run: <code>npm test -- --grep "does not set Content-Type for FormData payloads"</code>
+Expected: PASS if native Node 22 <code>FormData</code> already works, otherwise FAIL with a concrete compatibility error to address.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.test.js
+git commit -m &quot;test: reproduce node 22 xhr compatibility issues&quot;
+</code></pre>
+<h3 id="task-2-narrow-runtime-capability-detection-in-production-code">Task 2: Narrow runtime capability detection in production code</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code>
+- Modify: <code>lib/fake-xhr/blob.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Write the failing test for the production guard change</strong></p>
+<p>If Task 1 did not already fail at the right seam, add a smaller test around the specific branch that currently uses <code>supportsBlob</code>.</p>
+<pre><code class="language-js">it(&quot;creates blob responses when Blob is supported&quot;, function () {
+    this.xhr.responseType = &quot;blob&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(200, {}, &quot;data&quot;);
+
+    assert.equals(this.xhr.response.constructor.name, &quot;Blob&quot;);
+});
+</code></pre>
+<p><strong>Step 2: Run the targeted test</strong></p>
+<p>Run: <code>npm test -- --grep "creates blob responses when Blob is supported"</code>
+Expected: FAIL or show the current guard is broader/narrower than intended.</p>
+<p><strong>Step 3: Write the minimal implementation</strong></p>
+<p>In <code>lib/fake-xhr/index.js</code>:</p>
+<ul>
+<li>keep <code>supportsFormData</code> as a direct <code>typeof FormData !== "undefined"</code> check;</li>
+<li>keep blob support separate from any <code>FileReader</code> check;</li>
+<li>ensure <code>verifyResponseBodyType</code> and blob response creation use the blob-specific capability only.</li>
+</ul>
+<p>In <code>lib/fake-xhr/blob.js</code>:</p>
+<ul>
+<li>keep or rename the helper so it answers only one question: can the runtime construct a <code>Blob</code>?</li>
+</ul>
+<p>Example direction:</p>
+<pre><code class="language-js">var supportsFormData = typeof FormData !== &quot;undefined&quot;;
+var supportsBlob = require(&quot;./blob&quot;).isSupported;
+var supportsFileReader = typeof FileReader !== &quot;undefined&quot;;
+</code></pre>
+<p>Use <code>supportsBlob</code> in production blob paths. Only use <code>supportsFileReader</code> in code that directly depends on it.</p>
+<p><strong>Step 4: Run the targeted tests</strong></p>
+<p>Run: <code>npm test -- --grep "blob"</code>
+Expected: targeted blob tests PASS on Node 22.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.js lib/fake-xhr/blob.js lib/fake-xhr/index.test.js
+git commit -m &quot;fix: separate xhr feature detection for node 22&quot;
+</code></pre>
+<h3 id="task-3-update-blob-assertions-to-avoid-a-hard-filereader-dependency">Task 3: Update blob assertions to avoid a hard FileReader dependency</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Replace FileReader-based blob assertion helpers with a supported API</strong></p>
+<p>Prefer <code>Blob.text()</code> in the shared blob assertion helper.</p>
+<pre><code class="language-js">function assertBlobMatches(actual, expected, done) {
+    Promise.all([
+        actual.text(),
+        expected instanceof Blob ? expected.text() : Promise.resolve(expected),
+    ]).then(function (values) {
+        assert.same(values[0], values[1]);
+        done();
+    }, done);
+}
+</code></pre>
+<p><strong>Step 2: Run the focused blob response tests</strong></p>
+<p>Run: <code>npm test -- --grep "with Blob support|with Blob and FileReader support|blob"</code>
+Expected: PASS on Node 22 without requiring a global <code>FileReader</code>.</p>
+<p><strong>Step 3: Clean up test descriptions and guards</strong></p>
+<ul>
+<li>rename outdated describe blocks if they refer to <code>Blob and FileReader support</code>;</li>
+<li>gate only truly <code>FileReader</code>-specific tests on <code>typeof FileReader !== "undefined"</code>.</li>
+</ul>
+<p><strong>Step 4: Re-run the fake XHR test file</strong></p>
+<p>Run: <code>npm test -- lib/fake-xhr/index.test.js</code>
+Expected: PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.test.js
+git commit -m &quot;test: align blob assertions with node 22 APIs&quot;
+</code></pre>
+<h3 id="task-4-align-ci-with-supported-node-versions">Task 4: Align CI with supported Node versions</h3>
+<p><strong>Files:</strong>
+- Modify: <code>.github/workflows/main.yml</code></p>
+<p><strong>Step 1: Add a failing CI expectation in review notes</strong></p>
+<p>Document the intended supported versions before editing:</p>
+<pre><code class="language-text">Supported Node versions for this change: 22 and newer.
+</code></pre>
+<p><strong>Step 2: Update the test matrix</strong></p>
+<p>Change the workflow matrix in <code>.github/workflows/main.yml</code> from Node 16-only coverage to supported versions, for example:</p>
+<pre><code class="language-yml">strategy:
+    matrix:
+        node-version: [22, 24]
+</code></pre>
+<p>Keep the existing dedicated Node 20 coverage job only if the project still wants that separate signal; otherwise align it to the supported baseline too.</p>
+<p><strong>Step 3: Validate workflow syntax locally by inspection</strong></p>
+<p>Run: <code>sed -n '1,180p' .github/workflows/main.yml</code>
+Expected: Node test entries show only supported versions.</p>
+<p><strong>Step 4: Commit</strong></p>
+<pre><code class="language-bash">git add .github/workflows/main.yml
+git commit -m &quot;ci: test supported node versions&quot;
+</code></pre>
+<h3 id="task-5-full-verification">Task 5: Full verification</h3>
+<p><strong>Files:</strong>
+- Modify: <code>docs/plans/2026-03-02-node-22-compat.md</code> if commands need correction
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run the fake XHR test file</strong></p>
+<p>Run: <code>npm test -- lib/fake-xhr/index.test.js</code>
+Expected: PASS</p>
+<p><strong>Step 2: Run the full test suite</strong></p>
+<p>Run: <code>npm test</code>
+Expected: PASS</p>
+<p><strong>Step 3: Run lint if code structure changed materially</strong></p>
+<p>Run: <code>npm run lint</code>
+Expected: PASS</p>
+<p><strong>Step 4: Inspect the final diff</strong></p>
+<p>Run: <code>git diff --stat</code>
+Expected: only fake XHR code, tests, CI, and plan docs are changed.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add .github/workflows/main.yml lib/fake-xhr/index.js lib/fake-xhr/blob.js lib/fake-xhr/index.test.js docs/plans/2026-03-02-node-22-compat*.md
+git commit -m &quot;fix: restore fake xhr compatibility on node 22&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-02-node-22-compat-design/" class="btn btn-neutral float-left" title="Node 22 Compatibility Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-api-first-jsdoc-cleanup-design/" class="btn btn-neutral float-right" title="API-First JSDoc Cleanup Design">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-02-node-22-compat-design/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-api-first-jsdoc-cleanup-design/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

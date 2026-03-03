@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>API-First JSDoc Cleanup Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API-First JSDoc Cleanup Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-03-api-first-jsdoc-cleanup.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">API-First JSDoc Cleanup Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-establish-the-warning-baseline-and-public-api-inventory">Task 1: Establish the warning baseline and public API inventory</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-document-event-and-logger-public-apis">Task 2: Document event and logger public APIs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-document-fake-server-public-apis">Task 3: Document fake server public APIs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-4-document-fake-xhr-public-apis-and-fix-malformed-jsdoc">Task 4: Document fake XHR public APIs and fix malformed JSDoc</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-5-decide-stop-point-or-policy-follow-up">Task 5: Decide stop point or policy follow-up</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-6-final-verification-and-commit">Task 6: Final verification and commit</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">API-First JSDoc Cleanup Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-api-first-jsdoc-cleanup.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="api-first-jsdoc-cleanup-implementation-plan">API-First JSDoc Cleanup Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Reduce the repo’s JSDoc lint warnings by documenting exported/CommonJS/public APIs first, while avoiding low-value comment spam on trivial private helpers.</p>
+<p><strong>Architecture:</strong> Use ESLint as the source of truth for the current warning set, group warnings by module and API surface, then add proper JSDoc to exported constructors, factories, and prototype methods. Re-run lint after each module group and only document private helpers when they are non-trivial or necessary to reach a sensible stopping point.</p>
+<p><strong>Tech Stack:</strong> Node.js, ESLint, JSDoc, CommonJS modules</p>
+<hr />
+<h3 id="task-1-establish-the-warning-baseline-and-public-api-inventory">Task 1: Establish the warning baseline and public API inventory</h3>
+<p><strong>Files:</strong>
+- Review: <code>lib/fake-xhr/index.js</code>
+- Review: <code>lib/fake-server/index.js</code>
+- Review: <code>lib/configure-logger/index.js</code>
+- Review: <code>lib/event/custom-event.js</code>
+- Review: <code>lib/event/event-target.js</code>
+- Review: <code>lib/event/event.js</code>
+- Review: <code>lib/event/progress-event.js</code>
+- Review: <code>lib/fake-server/fake-server-with-clock.js</code>
+- Review: <code>lib/fake-server/log.js</code></p>
+<p><strong>Step 1: Capture the current warning list</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 .
+</code></pre>
+<p>Expected: around 37 warnings, all JSDoc-related.</p>
+<p><strong>Step 2: Identify exported/public API targets</strong></p>
+<p>Build a short inventory of:</p>
+<ul>
+<li><code>module.exports = ...</code></li>
+<li>exported constructors</li>
+<li>exported prototype methods intended for consumers</li>
+</ul>
+<p>Expected: a prioritized list of API surfaces to document before touching private helpers.</p>
+<h3 id="task-2-document-event-and-logger-public-apis">Task 2: Document event and logger public APIs</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/configure-logger/index.js</code>
+- Modify: <code>lib/event/custom-event.js</code>
+- Modify: <code>lib/event/event-target.js</code>
+- Modify: <code>lib/event/event.js</code>
+- Modify: <code>lib/event/progress-event.js</code></p>
+<p><strong>Step 1: Write the failing lint expectation</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/configure-logger/index.js lib/event/*.js
+</code></pre>
+<p>Expected: JSDoc warnings on exported/public constructors and functions.</p>
+<p><strong>Step 2: Add API-facing JSDoc</strong></p>
+<p>Document the exported/public pieces with concise but specific JSDoc, including:</p>
+<ul>
+<li>purpose</li>
+<li>params</li>
+<li>return values where applicable</li>
+<li>notable behavior only when it is not obvious from the name</li>
+</ul>
+<p>Prefer concrete types over:</p>
+<pre><code class="language-js">/**
+ * @returns {Function|undefined}
+ */
+</code></pre>
+<p>when a more specific callable shape can be expressed.</p>
+<p><strong>Step 3: Re-run targeted lint</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/configure-logger/index.js lib/event/*.js
+</code></pre>
+<p>Expected: warning count drops, with any remaining warnings limited to private helpers or intentionally deferred files.</p>
+<h3 id="task-3-document-fake-server-public-apis">Task 3: Document fake server public APIs</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-server/index.js</code>
+- Modify: <code>lib/fake-server/fake-server-with-clock.js</code>
+- Modify: <code>lib/fake-server/log.js</code></p>
+<p><strong>Step 1: Run targeted lint for fake server files</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/fake-server/*.js
+</code></pre>
+<p>Expected: warnings concentrated on exported constructors/factories and a few private helpers.</p>
+<p><strong>Step 2: Add JSDoc to exported/public APIs</strong></p>
+<p>Document:</p>
+<ul>
+<li>exported server factory/constructor entry points</li>
+<li>public methods exposed through the fake server API</li>
+<li>any exported log helper whose contract is consumer-visible</li>
+</ul>
+<p>Use minimal internal JSDoc only where the helper contract is subtle or lint still requires it.</p>
+<p><strong>Step 3: Re-run targeted lint</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/fake-server/*.js
+</code></pre>
+<p>Expected: warning count drops again without broad private-helper comment churn.</p>
+<h3 id="task-4-document-fake-xhr-public-apis-and-fix-malformed-jsdoc">Task 4: Document fake XHR public APIs and fix malformed JSDoc</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code></p>
+<p><strong>Step 1: Run targeted lint for fake XHR</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/fake-xhr/index.js
+</code></pre>
+<p>Expected: the largest remaining warning cluster.</p>
+<p><strong>Step 2: Add JSDoc to exported/public API surface</strong></p>
+<p>Document the public/exported parts of fake XHR first:</p>
+<ul>
+<li>exported constructor/factory surface</li>
+<li>public static members where useful</li>
+<li>public prototype methods intended for users of the library</li>
+</ul>
+<p>Also fix any malformed existing JSDoc such as missing <code>@param</code> declarations.</p>
+<p><strong>Step 3: Add minimal internal JSDoc only where justified</strong></p>
+<p>Only document private helpers when one of these is true:</p>
+<ul>
+<li>the helper is complex or contract-heavy</li>
+<li>lint still warns and the comment can stay short and meaningful</li>
+</ul>
+<p>Skip trivial helpers if they can remain undocumented without undermining the lint goal.</p>
+<p><strong>Step 4: Re-run targeted lint</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 lib/fake-xhr/index.js
+</code></pre>
+<p>Expected: warning count falls materially; remaining warnings should be easy to classify as either justified internal docs or policy mismatch.</p>
+<h3 id="task-5-decide-stop-point-or-policy-follow-up">Task 5: Decide stop point or policy follow-up</h3>
+<p><strong>Files:</strong>
+- Modify: <code>docs/plans/2026-03-03-api-first-jsdoc-cleanup-design.md</code> (optional notes only)</p>
+<p><strong>Step 1: Run full lint</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 999 .
+</code></pre>
+<p>Expected: significantly fewer warnings than the starting 37.</p>
+<p><strong>Step 2: Classify any remaining warnings</strong></p>
+<p>Separate the remainder into:</p>
+<ul>
+<li>meaningful missing docs on public API</li>
+<li>useful internal docs worth adding</li>
+<li>low-value private-helper warnings caused by current lint policy</li>
+</ul>
+<p><strong>Step 3: Choose completion rule</strong></p>
+<p>If the remaining warnings are low-value private-helper noise, stop the code cleanup and prepare a follow-up lint-policy proposal instead of adding boilerplate comments.</p>
+<p>If the remainder is still meaningful API documentation debt, continue with one more small cleanup pass.</p>
+<h3 id="task-6-final-verification-and-commit">Task 6: Final verification and commit</h3>
+<p><strong>Files:</strong>
+- Modify: the touched source files only</p>
+<p><strong>Step 1: Run lint with repo threshold</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">./node_modules/.bin/eslint --resolve-plugins-relative-to ./node_modules --max-warnings 35 .
+</code></pre>
+<p>Expected: PASS if the warning count reaches the current budget, or a clearly smaller failure set than the starting point if policy mismatch remains.</p>
+<p><strong>Step 2: Run tests</strong></p>
+<p>Run:</p>
+<pre><code class="language-bash">npm test
+</code></pre>
+<p>Expected: PASS</p>
+<p><strong>Step 3: Commit</strong></p>
+<pre><code class="language-bash">git add lib/configure-logger/index.js lib/event/*.js lib/fake-server/*.js lib/fake-xhr/index.js docs/plans/2026-03-03-api-first-jsdoc-cleanup-design.md docs/plans/2026-03-03-api-first-jsdoc-cleanup.md
+git commit -m &quot;docs: improve public api jsdoc coverage&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-api-first-jsdoc-cleanup-design/" class="btn btn-neutral float-left" title="API-First JSDoc Cleanup Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-issue-159-defaked-xhr-sync/" class="btn btn-neutral float-right" title="Issue 159 Defaked XHR Sync Implementation Plan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-api-first-jsdoc-cleanup-design/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-issue-159-defaked-xhr-sync/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Issue 194 HTML Document Support Design - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Issue 194 HTML Document Support Design";
+        var mkdocs_page_input_path = "plans/2026-03-03-issue-194-html-document-support-design.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Issue 194 HTML Document Support Design</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Issue 194 HTML Document Support Design</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-issue-194-html-document-support-design.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="issue-194-html-document-support-design">Issue 194 HTML Document Support Design</h1>
+<p><strong>Goal:</strong> Make <code>FakeXMLHttpRequest</code> support <code>responseType = "document"</code> for <code>Content-Type: text/html</code> when a native <code>DOMParser</code> is available, while preserving current XML behavior.</p>
+<p><strong>Context</strong></p>
+<p>Issue <code>#194</code> reports that <a href="/Users/carlerik/dev/nise/lib/fake-xhr/index.js"><code>lib/fake-xhr/index.js</code></a> only returns a <code>Document</code> for XML content types. Browsers also allow HTML responses to populate <code>xhr.response</code> when <code>responseType</code> is <code>"document"</code>, but the current implementation returns <code>null</code> for <code>text/html</code>.</p>
+<p><strong>Chosen Approach</strong></p>
+<p>Use the smallest production change:</p>
+<ul>
+<li>keep XML parsing on the existing <code>FakeXMLHttpRequest.parseXML</code> path;</li>
+<li>add a dedicated HTML branch for <code>responseType === "document"</code> and <code>Content-Type: text/html</code>;</li>
+<li>use <code>DOMParser().parseFromString(body, "text/html")</code> only when <code>DOMParser</code> exists;</li>
+<li>return <code>null</code> for HTML documents when no native parser is present.</li>
+</ul>
+<p>This matches the approved constraint: no added parser dependency and no custom HTML fallback.</p>
+<p><strong>Architecture</strong></p>
+<p>The change should stay local to response conversion:</p>
+<ul>
+<li><code>convertResponseBody</code> remains the single place that maps raw response bodies to typed <code>xhr.response</code> values;</li>
+<li>XML handling stays unchanged;</li>
+<li>HTML handling is added as a sibling branch, not folded into the XML helper;</li>
+<li><code>responseXML</code> behavior for non-document responses remains unchanged.</li>
+</ul>
+<p>If a helper is needed, it should be narrowly scoped, for example <code>parseHTML</code>, and only wrap the native parser availability check plus <code>parseFromString(..., "text/html")</code>.</p>
+<p><strong>Testing</strong></p>
+<p>Add focused tests in <a href="/Users/carlerik/dev/nise/lib/fake-xhr/index.test.js"><code>lib/fake-xhr/index.test.js</code></a>:</p>
+<ul>
+<li><code>responseType = "document"</code> plus <code>Content-Type: text/html</code> returns an HTML <code>Document</code> when <code>DOMParser</code> is available;</li>
+<li>the parsed document exposes expected HTML structure such as <code>documentElement.tagName === "HTML"</code> and a selected element from the body;</li>
+<li>the same request returns <code>null</code> when <code>DOMParser</code> is temporarily removed from the global environment;</li>
+<li>existing XML document tests remain unchanged as regression coverage.</li>
+</ul>
+<p><strong>Out of Scope</strong></p>
+<ul>
+<li>adding new parsing dependencies;</li>
+<li>changing <code>.responseXML</code> behavior for plain text or non-document responses;</li>
+<li>broad MIME-type support beyond the specific <code>text/html</code> case in issue <code>#194</code>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-issue-177-unsafe-header-noop/" class="btn btn-neutral float-left" title="Issue 177 Unsafe Header No-Op Implementation Plan"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-issue-194-html-document-support/" class="btn btn-neutral float-right" title="Issue 194 HTML Document Support Implementation Plan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-issue-177-unsafe-header-noop/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-issue-194-html-document-support/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

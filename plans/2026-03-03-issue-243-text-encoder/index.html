@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Issue 243 Text Encoder Dependency Removal Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Issue 243 Text Encoder Dependency Removal Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-03-issue-243-text-encoder.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-reproduce-and-pin-the-current-string-to-buffer-behavior">Task 1: Reproduce and pin the current string-to-buffer behavior</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-replace-the-deprecated-textencoder-dependency-with-a-local-helper">Task 2: Replace the deprecated TextEncoder dependency with a local helper</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-remove-the-package-dependency-and-update-generated-artifacts">Task 3: Remove the package dependency and update generated artifacts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-4-verify-blob-and-binary-regressions">Task 4: Verify blob and binary regressions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-5-final-review-and-merge-readiness">Task 5: Final review and merge readiness</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Issue 243 Text Encoder Dependency Removal Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-issue-243-text-encoder.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="issue-243-text-encoder-dependency-removal-implementation-plan">Issue 243 Text Encoder Dependency Removal Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Remove <code>@sinonjs/text-encoding</code> from fake XHR response handling by replacing its lone <code>TextEncoder</code> usage with a small dependency-free UTF-8 helper, while preserving current <code>arraybuffer</code> and <code>blob</code> behavior.</p>
+<p><strong>Architecture:</strong> Keep the change local to the fake XHR response conversion path in <code>lib/fake-xhr/index.js</code>. String response bodies should always be encoded as UTF-8, <code>ArrayBuffer</code> inputs should still pass through unchanged, and tests should assert exact byte output without depending on the deprecated polyfill.</p>
+<p><strong>Tech Stack:</strong> Node.js, Mocha, referee, browserify, nise fake XHR implementation</p>
+<hr />
+<h3 id="task-1-reproduce-and-pin-the-current-string-to-buffer-behavior">Task 1: Reproduce and pin the current string-to-buffer behavior</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Add a focused failing test for UTF-8 arraybuffer conversion</strong></p>
+<p>Add a test near the existing <code>responseType === "arraybuffer"</code> coverage that asserts exact UTF-8 bytes for a non-ASCII string without using <code>TextEncoder</code>.</p>
+<pre><code class="language-js">it(&quot;encodes string responses as utf-8 arraybuffers&quot;, function () {
+    this.xhr.responseType = &quot;arraybuffer&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;application/octet-stream&quot; },
+        &quot;\xFF&quot;,
+    );
+
+    assertArrayBufferMatches(
+        this.xhr.response,
+        new Uint8Array([0xc3, 0xbf]).buffer,
+    );
+});
+</code></pre>
+<p><strong>Step 2: Run the focused test to verify it passes before refactoring</strong></p>
+<p>Run: <code>npm test -- --grep "encodes string responses as utf-8 arraybuffers"</code>
+Expected: PASS on the current branch, proving the existing behavior is already UTF-8.</p>
+<p><strong>Step 3: Add a narrow regression test for ASCII strings if the current suite is not explicit enough</strong></p>
+<pre><code class="language-js">it(&quot;encodes ascii string responses as identical byte values&quot;, function () {
+    this.xhr.responseType = &quot;arraybuffer&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(
+        200,
+        { &quot;Content-Type&quot;: &quot;application/octet-stream&quot; },
+        &quot;a test buffer&quot;,
+    );
+
+    assertArrayBufferMatches(
+        this.xhr.response,
+        new Uint8Array([
+            97, 32, 116, 101, 115, 116, 32, 98, 117, 102, 102, 101, 114,
+        ]).buffer,
+    );
+});
+</code></pre>
+<p><strong>Step 4: Run the focused ASCII test</strong></p>
+<p>Run: <code>npm test -- --grep "encodes ascii string responses as identical byte values"</code>
+Expected: PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.test.js
+git commit -m &quot;test: pin utf8 arraybuffer response behavior&quot;
+</code></pre>
+<h3 id="task-2-replace-the-deprecated-textencoder-dependency-with-a-local-helper">Task 2: Replace the deprecated TextEncoder dependency with a local helper</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Write a failing unit-level regression around the old dependency seam</strong></p>
+<p>If Task 1 does not already give enough protection, add a test that exercises a code path which previously used <code>GlobalTextEncoder</code> indirectly through <code>respond(..., "string body")</code>.</p>
+<pre><code class="language-js">it(&quot;does not require an external text-encoding polyfill for string bodies&quot;, function () {
+    this.xhr.responseType = &quot;arraybuffer&quot;;
+    this.xhr.open(&quot;GET&quot;, &quot;/&quot;);
+    this.xhr.send();
+
+    this.xhr.respond(200, {}, &quot;hola&quot;);
+
+    assertArrayBufferMatches(
+        this.xhr.response,
+        new Uint8Array([104, 111, 108, 97]).buffer,
+    );
+});
+</code></pre>
+<p><strong>Step 2: Implement a narrow UTF-8 helper in <code>lib/fake-xhr/index.js</code></strong></p>
+<p>Remove the top-level <code>GlobalTextEncoder</code> fallback and replace it with a local helper. Keep it intentionally UTF-8-only.</p>
+<p>Example direction:</p>
+<pre><code class="language-js">function stringToUtf8ArrayBuffer(input) {
+    return Uint8Array.from(Buffer.from(input, &quot;utf8&quot;)).buffer;
+}
+</code></pre>
+<p>If <code>Buffer</code> is not acceptable for browser-facing code paths, use a small pure-JS UTF-8 encoder instead. In either case, the helper should not accept an <code>encoding</code> parameter.</p>
+<p><strong>Step 3: Simplify <code>convertToArrayBuffer</code></strong></p>
+<p>Change it from:</p>
+<pre><code class="language-js">function convertToArrayBuffer(body, encoding) {
+    if (body instanceof ArrayBuffer) {
+        return body;
+    }
+
+    return new GlobalTextEncoder(encoding || &quot;utf-8&quot;).encode(body).buffer;
+}
+</code></pre>
+<p>to logic equivalent to:</p>
+<pre><code class="language-js">function convertToArrayBuffer(body) {
+    if (body instanceof ArrayBuffer) {
+        return body;
+    }
+
+    return stringToUtf8ArrayBuffer(body);
+}
+</code></pre>
+<p>Do not preserve the unused <code>encoding</code> parameter.</p>
+<p><strong>Step 4: Run the focused arraybuffer tests</strong></p>
+<p>Run: <code>npm test -- --grep "arraybuffer|utf-8|utf8"</code>
+Expected: PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.js lib/fake-xhr/index.test.js
+git commit -m &quot;fix: replace deprecated text encoder dependency&quot;
+</code></pre>
+<h3 id="task-3-remove-the-package-dependency-and-update-generated-artifacts">Task 3: Remove the package dependency and update generated artifacts</h3>
+<p><strong>Files:</strong>
+- Modify: <code>package.json</code>
+- Modify: <code>package-lock.json</code>
+- Modify: <code>nise.js</code></p>
+<p><strong>Step 1: Remove <code>@sinonjs/text-encoding</code> from runtime dependencies</strong></p>
+<p>Delete the dependency entry from <a href="/Users/carlerik/dev/nise/package.json"><code>package.json</code></a>.</p>
+<p><strong>Step 2: Refresh the lockfile</strong></p>
+<p>Run: <code>npm install</code>
+Expected: <code>package-lock.json</code> no longer contains <code>@sinonjs/text-encoding</code>.</p>
+<p><strong>Step 3: Rebuild the browser bundle</strong></p>
+<p>Run: <code>npm run bundle</code>
+Expected: <code>nise.js</code> rebuilds successfully without references to the removed dependency.</p>
+<p><strong>Step 4: Verify the dependency is fully gone</strong></p>
+<p>Run: <code>rg -n "@sinonjs/text-encoding|GlobalTextEncoder|new TextEncoder\\(" .</code>
+Expected: no remaining production references; only historical mention may remain in the plan docs.</p>
+<p><strong>Step 5: Commit</strong></p>
+<pre><code class="language-bash">git add package.json package-lock.json nise.js
+git commit -m &quot;build: remove text-encoding dependency&quot;
+</code></pre>
+<h3 id="task-4-verify-blob-and-binary-regressions">Task 4: Verify blob and binary regressions</h3>
+<p><strong>Files:</strong>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run the full fake XHR test file</strong></p>
+<p>Run: <code>npm test -- lib/fake-xhr/index.test.js</code>
+Expected: PASS</p>
+<p><strong>Step 2: Run the full test suite</strong></p>
+<p>Run: <code>npm test</code>
+Expected: PASS</p>
+<p><strong>Step 3: Run headless browser tests because the removed dependency affected bundled code</strong></p>
+<p>Run: <code>npm run test-headless</code>
+Expected: PASS</p>
+<p><strong>Step 4: Run lint if helper code changed control flow or globals</strong></p>
+<p>Run: <code>npm run lint</code>
+Expected: PASS</p>
+<p><strong>Step 5: Inspect the final diff</strong></p>
+<p>Run: <code>git diff --stat</code>
+Expected: changes limited to <code>lib/fake-xhr/index.js</code>, <code>lib/fake-xhr/index.test.js</code>, <code>package.json</code>, <code>package-lock.json</code>, <code>nise.js</code>, and the plan docs.</p>
+<h3 id="task-5-final-review-and-merge-readiness">Task 5: Final review and merge readiness</h3>
+<p><strong>Files:</strong>
+- Modify: <code>docs/plans/2026-03-03-issue-243-text-encoder-design.md</code>
+- Modify: <code>docs/plans/2026-03-03-issue-243-text-encoder.md</code></p>
+<p><strong>Step 1: Review the implementation against issue <code>#243</code> comments</strong></p>
+<p>Confirm the finished patch satisfies the useful parts of the issue discussion:</p>
+<ul>
+<li>deprecated dependency removed;</li>
+<li>no new runtime dependency introduced;</li>
+<li>UTF-8-only behavior made explicit;</li>
+<li>no unnecessary <code>TextDecoder</code> work added.</li>
+</ul>
+<p><strong>Step 2: Summarize any intentional non-goals in the PR description</strong></p>
+<p>Include a short note that the fix does not add non-UTF-8 support because the old implementation never truly supported it either.</p>
+<p><strong>Step 3: Prepare a concise verification summary</strong></p>
+<p>Capture the exact commands and results:</p>
+<pre><code class="language-text">npm test
+npm run test-headless
+npm run lint
+npm run bundle
+</code></pre>
+<p><strong>Step 4: Commit the plan docs if they changed during execution notes</strong></p>
+<pre><code class="language-bash">git add docs/plans/2026-03-03-issue-243-text-encoder-design.md docs/plans/2026-03-03-issue-243-text-encoder.md
+git commit -m &quot;docs: add issue 243 implementation plan&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-issue-243-text-encoder-design/" class="btn btn-neutral float-left" title="Issue 243 Text Encoder Dependency Removal Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-issue-243-text-encoder-design/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

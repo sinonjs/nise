@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Issue 159 Defaked XHR Sync Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Issue 159 Defaked XHR Sync Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-03-issue-159-defaked-xhr-sync.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Issue 159 Defaked XHR Sync Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-audit-defaked-request-side-state-and-method-usage">Task 1: Audit defaked request-side state and method usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-lock-in-the-bug-with-focused-defake-tests">Task 2: Lock in the bug with focused defake tests</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-implement-the-shared-request-state-sync-helper">Task 3: Implement the shared request-state sync helper</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-4-verify-regressions-around-defaked-and-filtered-xhr-behavior">Task 4: Verify regressions around defaked and filtered XHR behavior</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-5-final-verification-and-branch-hygiene">Task 5: Final verification and branch hygiene</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Issue 159 Defaked XHR Sync Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-issue-159-defaked-xhr-sync.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="issue-159-defaked-xhr-sync-implementation-plan">Issue 159 Defaked XHR Sync Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Make defaked <code>FakeXMLHttpRequest</code> instances propagate post-<code>open()</code> request-side property changes to the underlying native XHR, fixing issue <code>#159</code> without relying on <code>Proxy</code>.</p>
+<p><strong>Architecture:</strong> Keep the current defake model, where <code>open()</code> swaps selected methods over to a real XHR, but replace the one-off <code>responseType</code> sync in <code>send()</code> with a small shared request-state sync helper inside <code>FakeXMLHttpRequest.defake</code>. Start with an audit of mutable request-side properties and defaked methods, then use that audit to define a narrow sync list for the helper and apply it before <code>send()</code> and any other defaked methods that need current fake-side state.</p>
+<p><strong>Tech Stack:</strong> Node.js, Mocha, Referee, Sinon, nise fake XHR implementation</p>
+<hr />
+<h3 id="task-1-audit-defaked-request-side-state-and-method-usage">Task 1: Audit defaked request-side state and method usage</h3>
+<p><strong>Files:</strong>
+- Modify: <code>docs/plans/2026-03-03-issue-159-defaked-xhr-sync.md</code>
+- Review: <code>lib/fake-xhr/index.js:323-380</code>
+- Review: <code>lib/fake-xhr/index.js:589-610</code>
+- Review: <code>lib/fake-xhr/index.js:760-804</code>
+- Review: <code>lib/fake-xhr/index.test.js:2334-2450</code></p>
+<p><strong>Step 1: Inspect defake control flow</strong></p>
+<p>Review how <code>open()</code> enters <code>FakeXMLHttpRequest.defake()</code> when filters match, and list which methods are redirected to the working XHR.</p>
+<p><strong>Step 2: Enumerate mutable fake-side request properties</strong></p>
+<p>Inspect fake XHR initialization and request flow to identify request-side properties that can change after <code>open()</code> and could affect the native XHR. At minimum, audit:</p>
+<pre><code class="language-js">[
+    &quot;responseType&quot;,
+    &quot;withCredentials&quot;,
+    &quot;timeout&quot;,
+]
+</code></pre>
+<p>Also explicitly note why properties such as <code>upload</code>, event handlers, <code>method</code>, <code>url</code>, <code>username</code>, <code>password</code>, <code>requestHeaders</code>, and response-side fields should remain outside this sync helper unless the audit proves otherwise.</p>
+<p><strong>Step 3: Decide which defaked methods need pre-call sync</strong></p>
+<p>For each redirected method below, record whether it should sync request-side state before delegation:</p>
+<pre><code class="language-js">[
+    &quot;open&quot;,
+    &quot;setRequestHeader&quot;,
+    &quot;abort&quot;,
+    &quot;getResponseHeader&quot;,
+    &quot;getAllResponseHeaders&quot;,
+    &quot;addEventListener&quot;,
+    &quot;overrideMimeType&quot;,
+    &quot;removeEventListener&quot;,
+    &quot;send&quot;,
+]
+</code></pre>
+<p>Expected outcome: the audit should justify option 2, with a shared helper used at least by <code>send()</code>, and document whether any additional method needs the same sync now instead of leaving that as guesswork.</p>
+<h3 id="task-2-lock-in-the-bug-with-focused-defake-tests">Task 2: Lock in the bug with focused defake tests</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js:2404-2450</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Write the failing test for <code>withCredentials</code></strong></p>
+<p>Add a defake-focused test next to the existing <code>responseType</code> coverage that:</p>
+<pre><code class="language-js">it(&quot;passes withCredentials to working XHR object on send&quot;, function () {
+    var workingXHRInstance;
+    var workingXHROverride = function () {
+        workingXHRInstance = this;
+        this.withCredentials = false;
+        this.open = function () {};
+        this.send = function () {};
+    };
+
+    runWithWorkingXHROveride(workingXHROverride, function () {
+        FakeXMLHttpRequest.defake(fakeXhr, []);
+        fakeXhr.withCredentials = true;
+        fakeXhr.send();
+        assert.equals(workingXHRInstance.withCredentials, true);
+    });
+});
+</code></pre>
+<p><strong>Step 2: Write the failing test for <code>timeout</code> if the audit keeps it in scope</strong></p>
+<p>If Task 1 concludes that <code>timeout</code> should sync, add a matching test asserting a post-<code>open()</code> timeout mutation reaches the working XHR before <code>send()</code>.</p>
+<p><strong>Step 3: Run targeted tests to verify they fail</strong></p>
+<p>Run: <code>npm test -- --grep "passes .* to working XHR object"</code>
+Expected: FAIL for the new <code>withCredentials</code> case on the current implementation, and FAIL for <code>timeout</code> only if you added that test.</p>
+<h3 id="task-3-implement-the-shared-request-state-sync-helper">Task 3: Implement the shared request-state sync helper</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js:323-347</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Replace the special-case <code>responseType</code> sync with a helper</strong></p>
+<p>Inside <code>FakeXMLHttpRequest.defake()</code>, introduce a helper that copies a narrow audited list of request-side properties from <code>fakeXhr</code> to <code>xhr</code> only when the values differ.</p>
+<pre><code class="language-js">var syncRequestState = function (attrs) {
+    attrs.forEach(function (attr) {
+        if (xhr[attr] !== fakeXhr[attr]) {
+            xhr[attr] = fakeXhr[attr];
+        }
+    });
+};
+</code></pre>
+<p>Use the audit result to drive the exact attribute list. Start from:</p>
+<pre><code class="language-js">[&quot;responseType&quot;, &quot;withCredentials&quot;, &quot;timeout&quot;]
+</code></pre>
+<p>and remove any property the audit shows is unsafe or ineffective to sync.</p>
+<p><strong>Step 2: Call the helper before delegating <code>send()</code></strong></p>
+<p>Update the defaked <code>send()</code> implementation to call the helper before <code>apply(xhr, "send", arguments)</code>.</p>
+<p><strong>Step 3: Apply sync to any additional defaked method justified by the audit</strong></p>
+<p>If Task 1 identifies another method that depends on current fake-side request state, call the same helper there. Otherwise, keep the change limited to <code>send()</code> and record that this is an intentional narrow fix.</p>
+<p><strong>Step 4: Preserve the existing synchronous XHR guard</strong></p>
+<p>Ensure the current issue <code>#61</code> behavior remains intact: when synchronous requests expose a guarded <code>responseType</code> setter, the helper must not introduce extra setter calls beyond the existing contract.</p>
+<h3 id="task-4-verify-regressions-around-defaked-and-filtered-xhr-behavior">Task 4: Verify regressions around defaked and filtered XHR behavior</h3>
+<p><strong>Files:</strong>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run the targeted defake block</strong></p>
+<p>Run: <code>npm test -- --grep "defake"</code>
+Expected: PASS</p>
+<p><strong>Step 2: Run filtered defake coverage</strong></p>
+<p>Run: <code>npm test -- --grep "defaked XHR filters"</code>
+Expected: PASS</p>
+<p><strong>Step 3: Run the full fake XHR suite</strong></p>
+<p>Run: <code>npm test -- lib/fake-xhr/index.test.js</code>
+Expected: PASS</p>
+<h3 id="task-5-final-verification-and-branch-hygiene">Task 5: Final verification and branch hygiene</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code>
+- Modify: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run lint if implementation changed shape materially</strong></p>
+<p>Run: <code>npm run lint</code>
+Expected: PASS</p>
+<p><strong>Step 2: Summarize the audit in the final PR description or commit message</strong></p>
+<p>Document:</p>
+<pre><code class="language-txt">- why Proxy was rejected
+- which request-side properties were audited
+- which ones were synced
+- which defaked methods were evaluated
+- why the final sync hook is limited to the chosen methods
+</code></pre>
+<p><strong>Step 3: Commit</strong></p>
+<pre><code class="language-bash">git add lib/fake-xhr/index.js lib/fake-xhr/index.test.js docs/plans/2026-03-03-issue-159-defaked-xhr-sync.md
+git commit -m &quot;plan: add issue 159 defaked xhr sync plan&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-api-first-jsdoc-cleanup/" class="btn btn-neutral float-left" title="API-First JSDoc Cleanup Implementation Plan"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-issue-177-unsafe-header-noop/" class="btn btn-neutral float-right" title="Issue 177 Unsafe Header No-Op Implementation Plan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-api-first-jsdoc-cleanup/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-issue-177-unsafe-header-noop/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

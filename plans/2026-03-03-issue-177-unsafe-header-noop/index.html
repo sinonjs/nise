@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Issue 177 Unsafe Header No-Op Implementation Plan - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Issue 177 Unsafe Header No-Op Implementation Plan";
+        var mkdocs_page_input_path = "plans/2026-03-03-issue-177-unsafe-header-noop.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat-design/">Node 22 Compatibility Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#task-1-lock-in-the-desired-behavior-with-tests">Task 1: Lock in the desired behavior with tests</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-2-implement-the-minimal-behavior-change">Task 2: Implement the minimal behavior change</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-3-verify-no-regression-in-adjacent-header-behavior">Task 3: Verify no regression in adjacent header behavior</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Issue 177 Unsafe Header No-Op Implementation Plan</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-03-issue-177-unsafe-header-noop.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="issue-177-unsafe-header-no-op-implementation-plan">Issue 177 Unsafe Header No-Op Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Make <code>FakeXMLHttpRequest#setRequestHeader</code> ignore forbidden request headers instead of throwing, matching the XHR spec discussed in issue <code>#177</code>.</p>
+<p><strong>Architecture:</strong> Keep the existing request state validation and header normalization flow, but change the forbidden-header branch to return early without mutating <code>requestHeaders</code>. Update the XHR tests to assert that forbidden headers are ignored by default while preserving the existing opt-out path when <code>unsafeHeadersEnabled</code> is <code>false</code>.</p>
+<p><strong>Tech Stack:</strong> Node.js, Mocha, Referee, nise fake XHR implementation</p>
+<hr />
+<h3 id="task-1-lock-in-the-desired-behavior-with-tests">Task 1: Lock in the desired behavior with tests</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.test.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Write the failing test</strong></p>
+<p>Add assertions that forbidden headers do not throw and do not populate <code>requestHeaders</code> when unsafe header checks are enabled.</p>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>npm test -- --grep "ignores unsafe headers by default"</code>
+Expected: FAIL because the current implementation throws.</p>
+<h3 id="task-2-implement-the-minimal-behavior-change">Task 2: Implement the minimal behavior change</h3>
+<p><strong>Files:</strong>
+- Modify: <code>lib/fake-xhr/index.js</code>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Write minimal implementation</strong></p>
+<p>Change the forbidden-header branch in <code>setRequestHeader</code> from throwing an error to returning early.</p>
+<p><strong>Step 2: Run targeted tests to verify it passes</strong></p>
+<p>Run: <code>npm test -- --grep "unsafe headers"</code>
+Expected: PASS for the updated default behavior and the existing override behavior.</p>
+<h3 id="task-3-verify-no-regression-in-adjacent-header-behavior">Task 3: Verify no regression in adjacent header behavior</h3>
+<p><strong>Files:</strong>
+- Test: <code>lib/fake-xhr/index.test.js</code></p>
+<p><strong>Step 1: Run related header tests</strong></p>
+<p>Run: <code>npm test -- --grep ".setRequestHeader"</code>
+Expected: PASS</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../2026-03-03-issue-159-defaked-xhr-sync/" class="btn btn-neutral float-left" title="Issue 159 Defaked XHR Sync Implementation Plan"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-03-issue-194-html-document-support-design/" class="btn btn-neutral float-right" title="Issue 194 HTML Document Support Design">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../2026-03-03-issue-159-defaked-xhr-sync/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-03-issue-194-html-document-support-design/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

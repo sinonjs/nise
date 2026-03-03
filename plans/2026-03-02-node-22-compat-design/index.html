@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Node 22 Compatibility Design - nise</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Node 22 Compatibility Design";
+        var mkdocs_page_input_path = "plans/2026-03-02-node-22-compat-design.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> nise
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">nise (偽)</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Plans</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Node 22 Compatibility Design</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-02-node-22-compat/">Node 22 Compatibility Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup-design/">API-First JSDoc Cleanup Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-api-first-jsdoc-cleanup/">API-First JSDoc Cleanup Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-159-defaked-xhr-sync/">Issue 159 Defaked XHR Sync Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-177-unsafe-header-noop/">Issue 177 Unsafe Header No-Op Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support-design/">Issue 194 HTML Document Support Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-194-html-document-support/">Issue 194 HTML Document Support Implementation Plan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder-design/">Issue 243 Text Encoder Dependency Removal Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../2026-03-03-issue-243-text-encoder/">Issue 243 Text Encoder Dependency Removal Implementation Plan</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">nise</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Plans</li>
+      <li class="breadcrumb-item active">Node 22 Compatibility Design</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/sinonjs/nise/edit/master/docs/plans/2026-03-02-node-22-compat-design.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="node-22-compatibility-design">Node 22 Compatibility Design</h1>
+<p><strong>Goal:</strong> Fix fake XHR compatibility for supported Node runtimes (<code>&gt;= 22</code>) by separating <code>Blob</code>, <code>FileReader</code>, and <code>FormData</code> capability checks instead of treating them as one feature set.</p>
+<p><strong>Context</strong></p>
+<p>PR <code>#218</code> attempted to address Node 18+/20 compatibility, but it mixed the actual fix with support-policy changes and dependency churn. The supported runtime baseline for this work is Node <code>&gt;= 22</code>, so the design can align with modern Node behavior and CI without preserving Node 16 behavior.</p>
+<p><strong>Problem</strong></p>
+<p>The current fake XHR implementation in <code>lib/fake-xhr/index.js</code> relies on coarse feature detection:</p>
+<ul>
+<li><code>supportsFormData</code> is based on a single global check.</li>
+<li><code>supportsBlob</code> is based on constructing a <code>Blob</code>.</li>
+<li>Tests in <code>lib/fake-xhr/index.test.js</code> read blobs with <code>FileReader</code>, even though current Node exposes <code>Blob</code> without exposing <code>FileReader</code>.</li>
+</ul>
+<p>That means blob response behavior and blob tests are coupled to APIs that do not actually need to exist together.</p>
+<p><strong>Chosen Approach</strong></p>
+<p>Use the minimal compatibility patch:</p>
+<ul>
+<li>keep production behavior dependency-free unless reproduction proves otherwise;</li>
+<li>split capability checks by actual API usage;</li>
+<li>update tests to match supported Node behavior;</li>
+<li>update CI to supported Node versions only.</li>
+</ul>
+<p>This avoids a <code>FormData</code> polyfill unless it is strictly required and avoids repeating the abandoned PR's runtime-policy and lockfile noise.</p>
+<p><strong>Architecture</strong></p>
+<p>In production code:</p>
+<ul>
+<li><code>Blob</code> response support should be gated by <code>Blob</code> support only.</li>
+<li><code>FormData</code> header handling should be gated by <code>FormData</code> support only.</li>
+<li><code>FileReader</code> should not be part of production blob support unless code directly instantiates it.</li>
+</ul>
+<p>In tests:</p>
+<ul>
+<li>blob-response assertions should use an API available in supported runtimes, preferably <code>Blob.text()</code>;</li>
+<li>any <code>FileReader</code>-specific assertions should be isolated behind a <code>FileReader</code> guard;</li>
+<li>tests should explicitly cover the supported Node runtime assumptions.</li>
+</ul>
+<p>In CI:</p>
+<ul>
+<li>the workflow should test supported Node versions only, using Node 22+ entries in the test matrix.</li>
+</ul>
+<p><strong>Files Expected To Change</strong></p>
+<ul>
+<li><code>.github/workflows/main.yml</code></li>
+<li><code>lib/fake-xhr/index.js</code></li>
+<li><code>lib/fake-xhr/blob.js</code> or a replacement helper if the existing helper becomes too narrow</li>
+<li><code>lib/fake-xhr/index.test.js</code></li>
+<li><code>package.json</code> only if test/runtime policy updates require it</li>
+</ul>
+<p><strong>Validation</strong></p>
+<ul>
+<li>run targeted mocha tests around fake XHR send/body handling and blob responses;</li>
+<li>run the full <code>npm test</code> suite on supported Node;</li>
+<li>confirm CI config reflects Node <code>&gt;= 22</code>.</li>
+</ul>
+<p><strong>Out of Scope</strong></p>
+<ul>
+<li>preserving compatibility with Node 16 or 18;</li>
+<li>adding broad polyfills by default;</li>
+<li>unrelated dependency updates or lockfile churn.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="nise (偽)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2026-03-02-node-22-compat/" class="btn btn-neutral float-right" title="Node 22 Compatibility Implementation Plan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/sinonjs/nise/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../2026-03-02-node-22-compat/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
