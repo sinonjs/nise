@@ -46,7 +46,7 @@
     "!lib/**/*.test.js"
   ],
   "devDependencies": {
-    "@sinonjs/eslint-config": "^5.0.4",
+    "@sinonjs/eslint-config": "^6.0.0",
     "@sinonjs/referee": "^11.0.1",
     "browserify": "^17.0.1",
     "husky": "^9.1.7",
