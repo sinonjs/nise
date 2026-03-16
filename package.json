@@ -45,10 +45,11 @@
     "lib/**/*.js",
     "!lib/**/*.test.js"
   ],
+  "// remark": "do not update browserify to version 17 or above. breaks `nise`! See issue #221",
   "devDependencies": {
     "@sinonjs/eslint-config": "^6.0.0",
     "@sinonjs/referee": "^11.0.1",
-    "browserify": "^17.0.1",
+    "browserify": "^16.5.2",
     "husky": "^9.1.7",
     "jsdom": "^28",
     "jsdom-global": "3.0.2",
