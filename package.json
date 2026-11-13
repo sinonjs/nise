@@ -78,7 +78,7 @@
     "@sinonjs/commons": "^3.0.1",
     "@sinonjs/fake-timers": "^15.1.1",
     "just-extend": "^6.2.0",
-    "path-to-regexp": "^8.3.0"
+    "path-to-regexp": "^9.0.0"
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --check",
