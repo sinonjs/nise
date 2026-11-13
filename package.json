@@ -15,7 +15,13 @@
     "url": "http://github.com/sinonjs/nise.git"
   },
   "main": "lib/index.js",
-  "module": "nise.js",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "bundle": "browserify  -x timers -x timers/promises --no-detect-globals -s nise -o nise.js lib/index.js",
     "lint": "eslint --max-warnings 0 .",
