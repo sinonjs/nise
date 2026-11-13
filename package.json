@@ -12,10 +12,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/sinonjs/nise.git"
+    "url": "git+https://github.com/sinonjs/nise.git"
   },
   "main": "lib/index.js",
-  "module": "nise.js",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "bundle": "browserify  -x timers -x timers/promises --no-detect-globals -s nise -o nise.js lib/index.js",
     "lint": "eslint --max-warnings 0 .",
@@ -23,7 +29,7 @@
     "prettier:write": "prettier --write '**/*.{js,css,md}'",
     "prepare": "npm run bundle",
     "prepublishOnly": "git pull && mkdocs gh-deploy -r upstream || mkdocs gh-deploy -r origin",
-    "test": "mocha lib/**/*.test.js",
+    "test": "mocha lib/**/*.test.js test/**/*.test.js",
     "test:coverage": "nyc --reporter=lcov --reporter=text --all npm test -- --reporter dot",
     "test:headless": "mochify --https-server --plugin [ proxyquire-universal ] --no-detect-globals test/global-hack.js lib/**/*.test.js"
   },
